@@ -81,16 +81,14 @@ namespace ConnectFour
 
     public class ComputerPlayer : Player
     {  
+        //Todo add a random name generator for the computer player
+        //Todo Add a random next move
+        //Todo add a random next move that is a winning move
+
         public bool IsHuman { get; set; }
         public ComputerPlayer(int playerNumber):base(playerNumber)// used when entering playername is not nessary
         {
-            /*
-            Name = "Ken Knif";// change this b4 you hand it in // I think this is not needed becuase it is using the base constructor , I will double check b4 i hand it in
-            GamesWon = 10;
-            GamesLost = 5;
-            GamesDrawn = 1;
-            TotalGames = 16;
-            */
+            
         }
         public ComputerPlayer(string name, int playerNumber) : base(name, playerNumber)
         {
@@ -169,39 +167,42 @@ namespace ConnectFour
             return false;
         }
 
+        //ToDo check for whiiner 
+
     }// End of Game Class
 
 
 
     internal class Program
-    {      
+    {
         static void Main(string[] args)
         {
+            // There will be a loop over everything in the main method it will be a do while doYouWantToPlayAgain == "Y" 
+            
+            //Todo after everything is done turn the main in to functions 
             //Start new game 
             Game currentGame = new Game();
-            
+
             // Input player 1
-            Console.WriteLine("Will Player 1 be Human (Y/N)? ");
-            string willPlayer1BeHuman = Console.ReadLine();
             Console.WriteLine("Enter Player 1's name: ");
             string player1Name = Console.ReadLine();
-                        
-            // Add player 1
-            if (willPlayer1BeHuman.ToUpper()== "Y") currentGame.AddHumanPlayer(player1Name, 1);
-            else currentGame.AddComputerPlayer(1);
-            
-            /*
+            // Add Player 1
+            currentGame.AddHumanPlayer(player1Name, 1);
+
             // Input player 2
             Console.WriteLine("Will Player 2 be Human (Y/N)? ");
             string willPlayer2BeHuman = Console.ReadLine();
-            Console.WriteLine("Enter Player 2's name: ");
-            string player2Name = Console.ReadLine();
 
-            // Add player 2  
-            if (willPlayer2BeHuman.ToUpper()== "Y") currentGame.AddHumanPlayer(player2Name, 2);
-            else*/
-
-            currentGame.AddComputerPlayer(2);// This is selected to be a computer player for testing purposes, no need to pick a name one is provided
+            string player2Name = "";
+            if (willPlayer2BeHuman.ToUpper() == "Y")
+            {
+                Console.WriteLine("Enter Player 2's name: ");
+                player2Name = Console.ReadLine();
+                currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
+            }
+            
+            // Add player 2 if computer
+            currentGame.AddComputerPlayer(2);// This is selected to be a computer, no need to pick a name one is provided, Stats are provided.
               
             //Display Players for testing purposes
             foreach (Player p in currentGame.CurrentPlayersInGame)
@@ -241,16 +242,16 @@ namespace ConnectFour
                 moveComplete= false;               
                 currentGame.DisplayBoard();
                
-
-
-            } while (currentGame.Status == true);
-
+                //Todo check for winner after 7 moves. you will need a counter.
 
 
 
-            
 
 
+
+
+
+            } while (currentGame.Status == true);         
 
         }// End of Main
     }
