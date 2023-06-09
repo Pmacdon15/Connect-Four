@@ -154,20 +154,75 @@ namespace ConnectFour
         // MakeAMove
         public bool MakeAMove(int columnNumber, char playerSymbol)
         {
-            for (int i = GameBoard.GetLength(0) - 1; i >= 0; i--)
+            if (columnNumber <= 7 && columnNumber>0) 
             {
-                if (GameBoard[i, columnNumber - 1] == '#')
+                for (int i = GameBoard.GetLength(0) - 1; i >= 0; i--)
                 {
-                    GameBoard[i, columnNumber - 1] = playerSymbol;
-                    return true;
+                    if (GameBoard[i, columnNumber - 1] == '#')
+                    {
+                        GameBoard[i, columnNumber - 1] = playerSymbol;
+                        return true;
+                    }
+                    //else
+                    //{
+                    //    Console.WriteLine("Column is full");
+                    //    return false;
+                    //}
                 }
-            }
-
-            Console.WriteLine("Column is full");
-            return false;
+                Console.WriteLine("Column is full");
+                return false;
+            }          
+            Console.WriteLine("Please enter a valid Column Number!!!");
+            return false;         
+                       
         }
 
         //ToDo check for whiiner 
+        public bool CheckForWinner()
+        {
+            
+            int player1Count = 0;
+            int player2Count = 0;
+            while (true)
+            {
+                for (int i = 0; i < GameBoard.GetLength(0); i++)// This loop is for checking each line
+                {
+                    player1Count = 0; // resets each row 
+                    player2Count = 0;
+                    for (int j = 0; j < GameBoard.GetLength(1); j++)
+                    {
+                        if (GameBoard[i, j] == 'X')
+                        {
+                            
+                            player1Count++;
+                            if (player1Count== 4)
+                            {
+                                Console.WriteLine("Player 1 Wins");
+                                return true;
+                            }
+                        }
+                        else if (GameBoard[i, j] == 'O')
+                        {
+                            player2Count++;
+                            if (player2Count== 4) 
+                            { 
+                                Console.WriteLine("Player 2 Wins");
+                                return true;
+                            }
+                        }
+                        else//if there is a # player counts are reset
+                        {
+                            player1Count = 0;
+                            player2Count = 0;
+                        }
+                    }
+                   
+                }// End of for loop
+                return false;
+            } 
+            
+        }
+
 
     }// End of Game Class
 
@@ -230,20 +285,23 @@ namespace ConnectFour
                 } while (!moveComplete);
                 moveComplete = false;
                 Console.Clear();
-                currentGame.DisplayBoard();
+                
+                currentGame.DisplayBoard(); 
+                currentGame.CheckForWinner();  // check for winner when each move is complete
 
                 do// Loop until a valid move is made then display the board
                 {//---------------------------------------------------------------------
                     Console.WriteLine("Player 2 please enter a column number for your move : ");
                     columnNumber = int.Parse(Console.ReadLine());
-                    moveComplete = currentGame.MakeAMove(columnNumber, 'Y');
+                    moveComplete = currentGame.MakeAMove(columnNumber, 'O');
 
                 } while (!moveComplete);
-                moveComplete= false;               
+                moveComplete= false;
+                Console.Clear();
                 currentGame.DisplayBoard();
                
                 //Todo check for winner after 7 moves. you will need a counter.
-
+                currentGame.CheckForWinner();
 
 
 
