@@ -6,7 +6,6 @@ using System.Xml.Linq;
 namespace ConnectFour
 {
 
-
     public abstract class Player //abstract class cannot be instantiated
     {
         protected string Name { get; set; }
@@ -42,6 +41,8 @@ namespace ConnectFour
             GamesDrawn = gamesDrawn;
             TotalGames = totalGames;
         }
+        //--------------------------------------------
+        //Using abstract for Proof of concept ,Abstract in this case is not necessary in this case 
         public abstract void AddWin();
        
         public void AddLoss()
@@ -56,7 +57,7 @@ namespace ConnectFour
         }
 
 
-    }
+    }// End of Player Class
 
     public class HumanPlayer : Player
     {
@@ -71,16 +72,20 @@ namespace ConnectFour
             GamesWon++;
             TotalGames++;
         }
+        public override string ToString()
+        {
+            return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
+        }
 
-    }
+    }// End of Human Class
 
     public class ComputerPlayer : Player
     {  
         public bool IsHuman { get; set; }
-        public ComputerPlayer(int playerNumber):base(playerNumber)
+        public ComputerPlayer(int playerNumber):base(playerNumber)// used when entering playername is not nessary
         {
             /*
-            Name = "Ken Knif";// change this b4 you hand it in // i think this is not needed becuase it is using the base constructor , i will double check b4 i hand it in
+            Name = "Ken Knif";// change this b4 you hand it in // I think this is not needed becuase it is using the base constructor , I will double check b4 i hand it in
             GamesWon = 10;
             GamesLost = 5;
             GamesDrawn = 1;
@@ -97,7 +102,12 @@ namespace ConnectFour
             TotalGames++;
         }
 
-    }
+        public override string ToString()
+        {
+            return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
+        }
+
+    }// End of Computer Class
 
     public class Game
     {
@@ -158,13 +168,13 @@ namespace ConnectFour
             Console.WriteLine("Column is full");
             return false;
         }
-    }
+
+    }// End of Game Class
 
 
 
     internal class Program
-    {
-      
+    {      
         static void Main(string[] args)
         {
             //Start new game 
@@ -172,34 +182,43 @@ namespace ConnectFour
             
             // Input player 1
             Console.WriteLine("Will Player 1 be Human (Y/N)? ");
-            string player1 = Console.ReadLine();
+            string willPlayer1BeHuman = Console.ReadLine();
             Console.WriteLine("Enter Player 1's name: ");
             string player1Name = Console.ReadLine();
                         
             // Add player 1
-            if (player1.ToUpper()== "Y") currentGame.AddHumanPlayer(player1Name, 1);
+            if (willPlayer1BeHuman.ToUpper()== "Y") currentGame.AddHumanPlayer(player1Name, 1);
             else currentGame.AddComputerPlayer(1);
-
+            
+            /*
             // Input player 2
             Console.WriteLine("Will Player 2 be Human (Y/N)? ");
-            string player2 = Console.ReadLine();
+            string willPlayer2BeHuman = Console.ReadLine();
             Console.WriteLine("Enter Player 2's name: ");
             string player2Name = Console.ReadLine();
 
-            // Add player 2
-            if (player2.ToUpper()== "Y") currentGame.AddHumanPlayer(player2Name, 2);
-            else currentGame.AddComputerPlayer(2);
+            // Add player 2  
+            if (willPlayer2BeHuman.ToUpper()== "Y") currentGame.AddHumanPlayer(player2Name, 2);
+            else*/
 
-            //Display Board
+            currentGame.AddComputerPlayer(2);// This is selected to be a computer player for testing purposes, no need to pick a name one is provided
+              
+            //Display Players for testing purposes
+            foreach (Player p in currentGame.CurrentPlayersInGame)
+            {
+                Console.WriteLine(p.ToString());
+            }
+            
+            //Display Board b4 game starts
             currentGame.DisplayBoard();
-
+            
             bool moveComplete = false;
             int columnNumber;
             // Loop until there is a winner or a draw
             do
             {//------------------------------------------------------------------------
                 
-                
+                // Next two loops are for obtaininga valid move from each player
                 do// Loop until a valid move is made then display the board
                 {//--------------------------------------------------------------------
                     // Prompt player 1 to enter a column number for thier move
@@ -209,6 +228,7 @@ namespace ConnectFour
 
                 } while (!moveComplete);
                 moveComplete = false;
+                Console.Clear();
                 currentGame.DisplayBoard();
 
                 do// Loop until a valid move is made then display the board
@@ -218,7 +238,7 @@ namespace ConnectFour
                     moveComplete = currentGame.MakeAMove(columnNumber, 'Y');
 
                 } while (!moveComplete);
-                moveComplete= false;
+                moveComplete= false;               
                 currentGame.DisplayBoard();
                
 
