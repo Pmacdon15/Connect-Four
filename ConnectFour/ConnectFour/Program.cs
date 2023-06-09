@@ -162,12 +162,7 @@ namespace ConnectFour
                     {
                         GameBoard[i, columnNumber - 1] = playerSymbol;
                         return true;
-                    }
-                    //else
-                    //{
-                    //    Console.WriteLine("Column is full");
-                    //    return false;
-                    //}
+                    }                    
                 }
                 Console.WriteLine("Column is full");
                 return false;
