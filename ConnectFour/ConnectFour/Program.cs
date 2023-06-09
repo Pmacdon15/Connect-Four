@@ -10,29 +10,33 @@ namespace ConnectFour
     public abstract class Player //abstract class cannot be instantiated
     {
         protected string Name { get; set; }
+        protected int PlayerNumber { get; set; }
         protected int GamesWon { get; set; }
         protected int GamesLost { get; set; }
         protected int GamesDrawn { get; set; }
         protected int TotalGames { get; set; }
-        public Player()
+        public Player(int playerNumber)
         {
             Name = "Ken Knif";// change this b4 you hand it in .
             GamesWon = 10;
             GamesLost = 5;
             GamesDrawn = 1;
             TotalGames = 16;
+            PlayerNumber = playerNumber;
         }
-        public Player(string name)
+        public Player(string name, int playerNumber)
         {
             Name = name;
             GamesWon = 0;
             GamesLost = 0;
             GamesDrawn = 0;
             TotalGames = 0;
+            PlayerNumber = playerNumber;
         }
-        public Player(string name , int gamesWon, int gamesLost, int gamesDrawn, int totalGames)// for entering custum stats
+        public Player(string name , int playerNumber, int gamesWon, int gamesLost, int gamesDrawn, int totalGames )// for entering custum stats
         {
             Name = name;
+            PlayerNumber = playerNumber;
             GamesWon = gamesWon;
             GamesLost = gamesLost;
             GamesDrawn = gamesDrawn;
@@ -52,14 +56,13 @@ namespace ConnectFour
         }
 
 
-
     }
 
     public class HumanPlayer : Player
     {
         public bool IsHuman { get; set; }
 
-        public HumanPlayer(string name):base(name)
+        public HumanPlayer(string name, int playerNumber) :base(name, playerNumber)
         {                       
             IsHuman = true;
         }
@@ -74,17 +77,17 @@ namespace ConnectFour
     public class ComputerPlayer : Player
     {  
         public bool IsHuman { get; set; }
-        public ComputerPlayer() : base()
+        public ComputerPlayer(int playerNumber):base(playerNumber)
         {
             /*
-            Name = "Ken Knif";// change this b4 you hand it in 
+            Name = "Ken Knif";// change this b4 you hand it in // i think this is not needed becuase it is using the base constructor , i will double check b4 i hand it in
             GamesWon = 10;
             GamesLost = 5;
             GamesDrawn = 1;
             TotalGames = 16;
             */
         }
-        public ComputerPlayer(string name) : base(name)
+        public ComputerPlayer(string name, int playerNumber) : base(name, playerNumber)
         {
             IsHuman = false;
         }
@@ -131,13 +134,13 @@ namespace ConnectFour
             Console.WriteLine(" 1 2 3 4 5 6 7");
         }
         // Add PLayers
-        public void AddHumanPlayer(string name)
+        public void AddHumanPlayer(string name,int playerNumber)
         {
-            CurrentPlayersInGame.Add(new HumanPlayer(name));
+            CurrentPlayersInGame.Add(new HumanPlayer(name, playerNumber));
         }
-        public void AddComputerPlayer(string name)
+        public void AddComputerPlayer(int playerNumber)// For testing pourpouses later will add the paramater "string name" so we can enter the name instead of using the default
         {
-            CurrentPlayersInGame.Add(new ComputerPlayer());
+            CurrentPlayersInGame.Add(new ComputerPlayer(playerNumber));
         }
 
         // MakeAMove
@@ -174,8 +177,8 @@ namespace ConnectFour
             string player1Name = Console.ReadLine();
                         
             // Add player 1
-            if (player1.ToUpper()== "Y") currentGame.AddHumanPlayer(player1Name);
-            else currentGame.AddComputerPlayer(player1Name);
+            if (player1.ToUpper()== "Y") currentGame.AddHumanPlayer(player1Name, 1);
+            else currentGame.AddComputerPlayer(1);
 
             // Input player 2
             Console.WriteLine("Will Player 2 be Human (Y/N)? ");
@@ -184,8 +187,8 @@ namespace ConnectFour
             string player2Name = Console.ReadLine();
 
             // Add player 2
-            if (player2.ToUpper()== "Y") currentGame.AddHumanPlayer(player2Name);
-            else currentGame.AddComputerPlayer(player2Name);
+            if (player2.ToUpper()== "Y") currentGame.AddHumanPlayer(player2Name, 2);
+            else currentGame.AddComputerPlayer(2);
 
             //Display Board
             currentGame.DisplayBoard();
