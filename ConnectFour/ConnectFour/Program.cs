@@ -32,7 +32,7 @@ namespace ConnectFour
             TotalGames = 0;
             PlayerNumber = playerNumber;
         }
-        public Player(string name , int playerNumber, int gamesWon, int gamesLost, int gamesDrawn, int totalGames )// for entering custum stats
+        public Player(string name, int playerNumber, int gamesWon, int gamesLost, int gamesDrawn, int totalGames)// for entering custum stats
         {
             Name = name;
             PlayerNumber = playerNumber;
@@ -44,7 +44,7 @@ namespace ConnectFour
         //--------------------------------------------
         //Using abstract for Proof of concept ,Abstract in this case is not necessary in this case 
         public abstract void AddWin();
-       
+
         public void AddLoss()
         {
             GamesLost++;
@@ -63,8 +63,8 @@ namespace ConnectFour
     {
         public bool IsHuman { get; set; }
 
-        public HumanPlayer(string name, int playerNumber) :base(name, playerNumber)
-        {                       
+        public HumanPlayer(string name, int playerNumber) : base(name, playerNumber)
+        {
             IsHuman = true;
         }
         public override void AddWin()
@@ -80,15 +80,15 @@ namespace ConnectFour
     }// End of Human Class
 
     public class ComputerPlayer : Player
-    {  
+    {
         //Todo add a random name generator for the computer player
         //Todo Add a random next move
         //Todo add a random next move that is a winning move
 
         public bool IsHuman { get; set; }
-        public ComputerPlayer(int playerNumber):base(playerNumber)// used when entering playername is not nessary
+        public ComputerPlayer(int playerNumber) : base(playerNumber)// used when entering playername is not nessary
         {
-            
+
         }
         public ComputerPlayer(string name, int playerNumber) : base(name, playerNumber)
         {
@@ -142,7 +142,7 @@ namespace ConnectFour
             Console.WriteLine(" 1 2 3 4 5 6 7");
         }
         // Add PLayers
-        public void AddHumanPlayer(string name,int playerNumber)
+        public void AddHumanPlayer(string name, int playerNumber)
         {
             CurrentPlayersInGame.Add(new HumanPlayer(name, playerNumber));
         }
@@ -154,7 +154,7 @@ namespace ConnectFour
         // MakeAMove
         public bool MakeAMove(int columnNumber, char playerSymbol)
         {
-            if (columnNumber <= 7 && columnNumber>0) 
+            if (columnNumber <= 7 && columnNumber > 0)
             {
                 for (int i = GameBoard.GetLength(0) - 1; i >= 0; i--)
                 {
@@ -162,20 +162,20 @@ namespace ConnectFour
                     {
                         GameBoard[i, columnNumber - 1] = playerSymbol;
                         return true;
-                    }                    
+                    }
                 }
                 Console.WriteLine("Column is full");
                 return false;
-            }          
+            }
             Console.WriteLine("Please enter a valid Column Number!!!");
-            return false;         
-                       
+            return false;
+
         }
 
         //ToDo check for whiiner 
         public bool CheckForWinner()
         {
-            
+
             int player1Count = 0;
             int player2Count = 0;
             while (true)
@@ -188,9 +188,9 @@ namespace ConnectFour
                     {
                         if (GameBoard[i, j] == 'X')
                         {
-                            
+
                             player1Count++;
-                            if (player1Count== 4)
+                            if (player1Count == 4)
                             {
                                 Console.WriteLine("Player 1 Wins");
                                 return true;
@@ -199,8 +199,8 @@ namespace ConnectFour
                         else if (GameBoard[i, j] == 'O')
                         {
                             player2Count++;
-                            if (player2Count== 4) 
-                            { 
+                            if (player2Count == 4)
+                            {
                                 Console.WriteLine("Player 2 Wins");
                                 return true;
                             }
@@ -211,11 +211,11 @@ namespace ConnectFour
                             player2Count = 0;
                         }
                     }
-                   
+
                 }// End of for loop
                 return false;
-            } 
-            
+            }
+
         }
 
 
@@ -228,7 +228,7 @@ namespace ConnectFour
         static void Main(string[] args)
         {
             // There will be a loop over everything in the main method it will be a do while doYouWantToPlayAgain == "Y" 
-            
+
             //Todo after everything is done turn the main in to functions 
             //Start new game 
             Game currentGame = new Game();
@@ -250,25 +250,25 @@ namespace ConnectFour
                 player2Name = Console.ReadLine();
                 currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
             }
-            
+
             // Add player 2 if computer
             currentGame.AddComputerPlayer(2);// This is selected to be a computer, no need to pick a name one is provided, Stats are provided.
-              
+
             //Display Players for testing purposes
             foreach (Player p in currentGame.CurrentPlayersInGame)
             {
                 Console.WriteLine(p.ToString());
             }
-            
+
             //Display Board b4 game starts
             currentGame.DisplayBoard();
-            
+
             bool moveComplete = false;
             int columnNumber;
             // Loop until there is a winner or a draw
-            do
+            while (true)
             {//------------------------------------------------------------------------
-                
+
                 // Next two loops are for obtaininga valid move from each player
                 do// Loop until a valid move is made then display the board
                 {//--------------------------------------------------------------------
@@ -280,9 +280,12 @@ namespace ConnectFour
                 } while (!moveComplete);
                 moveComplete = false;
                 Console.Clear();
-                
-                currentGame.DisplayBoard(); 
-                currentGame.CheckForWinner();  // check for winner when each move is complete
+
+                currentGame.DisplayBoard();
+                if (currentGame.CheckForWinner())
+                {                   
+                    break;
+                }  
 
                 do// Loop until a valid move is made then display the board
                 {//---------------------------------------------------------------------
@@ -291,21 +294,23 @@ namespace ConnectFour
                     moveComplete = currentGame.MakeAMove(columnNumber, 'O');
 
                 } while (!moveComplete);
-                moveComplete= false;
+                moveComplete = false;
                 Console.Clear();
                 currentGame.DisplayBoard();
-               
+
                 //Todo check for winner after 7 moves. you will need a counter.
-                currentGame.CheckForWinner();
+                if (currentGame.CheckForWinner())
+                {
+                    
+                    break;
+                }
 
 
 
 
 
 
-
-            } while (currentGame.Status == true);         
-
+            }
         }// End of Main
     }
 }
