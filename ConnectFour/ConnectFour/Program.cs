@@ -213,6 +213,47 @@ namespace ConnectFour
                     }
 
                 }// End of for loop
+                //---------------------------------------------------
+                for (int i =0; i < GameBoard.GetLength(1); i++)// This loop is for checking each column
+                {
+                    player1Count = 0; // resets each row 
+                    player2Count = 0;
+                    for (int j = 0; j < GameBoard.GetLength(0); j++)
+                    {
+                        if (GameBoard[j, i] == 'X')
+                        {
+
+                            player1Count++;
+                            if (player1Count == 4)
+                            {
+                                Console.WriteLine("Player 1 Wins");
+                                return true;
+                            }
+                        }
+                        else if (GameBoard[j, i] == 'O')
+                        {
+                            player2Count++;
+                            if (player2Count == 4)
+                            {
+                                Console.WriteLine("Player 2 Wins");
+                                return true;
+                            }
+                        }
+                        else//if there is a # player counts are reset
+                        {
+                            player1Count = 0;
+                            player2Count = 0;
+                        }
+                    }
+
+                }// End of for loop
+                
+                
+                
+                
+                
+                
+                
                 return false;
             }
 
@@ -265,6 +306,7 @@ namespace ConnectFour
 
             bool moveComplete = false;
             int columnNumber;
+            int numberOfMoves = 0;
             // Loop until there is a winner or a draw
             while (true)
             {//------------------------------------------------------------------------
@@ -278,14 +320,16 @@ namespace ConnectFour
                     moveComplete = currentGame.MakeAMove(columnNumber, 'X');
 
                 } while (!moveComplete);
+                numberOfMoves++;
                 moveComplete = false;
                 Console.Clear();
 
                 currentGame.DisplayBoard();
-                if (currentGame.CheckForWinner())
-                {                   
-                    break;
-                }  
+                if (numberOfMoves > 6)
+                {
+                    if (currentGame.CheckForWinner()) break;
+                }
+
 
                 do// Loop until a valid move is made then display the board
                 {//---------------------------------------------------------------------
@@ -294,16 +338,19 @@ namespace ConnectFour
                     moveComplete = currentGame.MakeAMove(columnNumber, 'O');
 
                 } while (!moveComplete);
+                numberOfMoves++;
                 moveComplete = false;
                 Console.Clear();
                 currentGame.DisplayBoard();
 
                 //Todo check for winner after 7 moves. you will need a counter.
-                if (currentGame.CheckForWinner())
+
+                if (numberOfMoves > 6)
                 {
-                    
-                    break;
+                    if (currentGame.CheckForWinner()) break;
                 }
+                    
+                //ToDo some kind of winning screen and assigning values to propteries in the player class
 
 
 
