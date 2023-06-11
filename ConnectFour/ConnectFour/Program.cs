@@ -187,16 +187,51 @@ namespace ConnectFour
         public bool CheckForWinner()
         {            
             while (true)
-            {//Todo Make lists of winning line cords and check them in a loop instead of having so many lines of code 
+            {             
+                //Todo Make lists of winning line cords and check them in a loop instead of having so many lines of code 
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
                 if (CheckWinningColumns(GameBoard, CurrentPlayersInGame)== true) return true;
+
+                List<(int iStarter, int k, int iLimit)> winningLines1 = new List<(int, int, int)>()
+                {
+                    (2, 0, 5),
+                    (1, 0, 5),
+                    (0, 0, 5),
+                    (0, 1, 5),
+                    (0, 2, 4),
+                    (0, 3, 3),
+                    (0, 3, 3)
+                };
+
+                foreach (var line in winningLines1)
+                {
+                    if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;
+                }
                 // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction 
+                /*
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame,2,0,5) == true) return true;
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 1, 0, 5) == true) return true;
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 0, 5) == true) return true;
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 1, 5) == true) return true;
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 2, 4) == true) return true;
                 if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 3, 3) == true) return true;
+                */
+
+                List<(int iStarter, int k, int iLimit)> winningLines2 = new List<(int, int, int)>()
+                {                    
+                    (0, 3, 3),
+                    (0, 4, 4),
+                    (0, 5, 5),
+                    (0, 6, 5),
+                    (1, 6, 5),
+                    (2, 6, 5)
+                };
+                foreach (var line in winningLines2)
+                {
+                    if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;
+                }
+
+                /*
                 // Diagonal lines top right to bottom left there are six possibilities that can hold a winner in this direction 
                 if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0,3,3) == true) return true;   
                 if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 4, 4) == true) return true;
@@ -204,6 +239,7 @@ namespace ConnectFour
                 if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 6, 5) == true) return true;
                 if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 1, 6, 5) == true) return true;
                 if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 2, 6, 5) == true) return true;
+                */
 
                 return false;// We return false after checking for all winning possiblies
             }
