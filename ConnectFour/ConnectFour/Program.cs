@@ -190,8 +190,16 @@ namespace ConnectFour
             {
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
                 if (CheckWinningColumns(GameBoard, CurrentPlayersInGame)== true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame) == true) return true;// This method can be retrio fited to work for all diangles left top to right bottom
-                // ToDo check all diagonals
+                // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction 
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame,2,0,5) == true) return true;
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 1, 0, 5) == true) return true;
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 0, 5) == true) return true;
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 1, 5) == true) return true;
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 2, 4) == true) return true;
+                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 3, 3) == true) return true;
+                // Diagonal lines top right to bottom left there are six possibilities that can hold a winner in this direction 
+                // ToDo check all diagonals top right to bottom left
+                
                 //if (CheckWinningDiagonal2(GameBoard) == true) return true;                              
 
                 return false;// We return false after checking for all winning possiblies
@@ -326,13 +334,13 @@ namespace ConnectFour
             }// End of for loop
             return false; // if we get here there is no winner we will move to the next step to check for a winner
         }// End of CheckWinningColumns
-        public static bool CheckWinningDiagonal1(char[,] GameBoard, List<Player> CurrentPlayersInGame)
+        public static bool CheckWinningDiagonal1(char[,] GameBoard, List<Player> CurrentPlayersInGame, int iStarter,int k, int iLimit)
         {
             int player1Count = 0;
             int player2Count = 0;
 
-            int k = 0;
-            for (int i = 2; i <= 5; i++)
+            //int k = 0;
+            for (int i =iStarter; i <= iLimit; i++)
             {
                 if (GameBoard[i, k] == 'X')
                 {
