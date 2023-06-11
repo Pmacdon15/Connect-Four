@@ -175,20 +175,26 @@ namespace ConnectFour
         //ToDo check for whiiner 
         public bool CheckForWinner()
         {
-
             int player1Count = 0;
             int player2Count = 0;
             while (true)
             {
+                if (CheckWinningRows(GameBoard) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
+                if (CheckWinningColumns(GameBoard)== true) return true;
+                if (CheckWinningDiagonal1(GameBoard) == true) return true;
+                //if (CheckWinningDiagonal2(GameBoard) == true) return true;
+
+                /*
                 for (int i = 0; i < GameBoard.GetLength(0); i++)// This loop is for checking each line
                 {
                     player1Count = 0; // resets each row 
                     player2Count = 0;
                     for (int j = 0; j < GameBoard.GetLength(1); j++)
                     {
+                        
+
                         if (GameBoard[i, j] == 'X')
                         {
-
                             player1Count++;
                             if (player1Count == 4)
                             {
@@ -212,9 +218,9 @@ namespace ConnectFour
                         }
                     }
 
-                }// End of for loop
-                //---------------------------------------------------
-                for (int i =0; i < GameBoard.GetLength(1); i++)// This loop is for checking each column
+                }// End of for loop  
+
+                for (int i = 0; i < GameBoard.GetLength(1); i++)// This loop is for checking each column
                 {
                     player1Count = 0; // resets each row 
                     player2Count = 0;
@@ -222,7 +228,6 @@ namespace ConnectFour
                     {
                         if (GameBoard[j, i] == 'X')
                         {
-
                             player1Count++;
                             if (player1Count == 4)
                             {
@@ -247,22 +252,166 @@ namespace ConnectFour
                     }
 
                 }// End of for loop
-                
-                
-                
-                
-                
-                
-                
-                return false;
+                 //--ToDo check Diagonal One Direction for winners and then diagonal the other direction for winners                 
+                 // there are 6 possible diagonal lines that can have a winner
+                */
+               // Diagonal 1 lt rb
+                player1Count = 0;
+                player2Count = 0;
+
+                int k = 0;
+                for (int i = 2; i <= 5; i++)
+                {
+                    if (GameBoard[i, k] == 'X')
+                    {
+                        player1Count++;
+                        if (player1Count == 4)
+                        {
+                            Console.WriteLine("Player 1 Wins");
+                            return true;
+                        }
+                    }
+                    else if (GameBoard[i, k] == 'O')
+                    {
+                        player2Count++;
+                        if (player2Count == 4)
+                        {
+                            Console.WriteLine("Player 2 Wins");
+                            return true;
+                        }
+                    }
+                    else//if there is a # player counts are reset
+                    {
+                        player1Count = 0;
+                        player2Count = 0;
+                    }
+                    k++;
+                }//End of for loop              
+
+                return false;// We return false after checking for all winning possiblies
             }
 
+        }  //End of Game class    
+
+        //____
+        public static bool CheckWinningRows(char[,] GameBoard)
+        {
+            int player1Count = 0;
+            int player2Count = 0;
+
+            for (int i = 0; i < GameBoard.GetLength(0); i++)// This loop is for checking each line
+            {
+                player1Count = 0; // resets each row 
+                player2Count = 0;
+                for (int j = 0; j < GameBoard.GetLength(1); j++)
+                {
+
+                    if (GameBoard[i, j] == 'X')
+                    {
+                        player1Count++;
+                        if (player1Count == 4)
+                        {
+                            Console.WriteLine("Player 1 Wins");
+                            return true;
+                        }
+                    }
+                    else if (GameBoard[i, j] == 'O')
+                    {
+                        player2Count++;
+                        if (player2Count == 4)
+                        {
+                            Console.WriteLine("Player 2 Wins");
+                            return true;
+                        }
+                    }
+                    else//if there is a # player counts are reset
+                    {
+                        player1Count = 0;
+                        player2Count = 0;
+                    }
+                }
+
+            }// End of for loop
+            return false; // if we get here there is no winner we will move to the next step to check for a winner
+
+        }// End of CheckWinningRows
+        public static bool CheckWinningColumns(char[,] GameBoard)
+        {
+            int player1Count = 0; // resets each row 
+            int player2Count = 0;
+            for (int i = 0; i < GameBoard.GetLength(1); i++)// This loop is for checking each column
+            {
+                
+                for (int j = 0; j < GameBoard.GetLength(0); j++)
+                {
+                    if (GameBoard[j, i] == 'X')
+                    {
+                        player1Count++;
+                        if (player1Count == 4)
+                        {
+                            Console.WriteLine("Player 1 Wins");
+                            return true;
+                        }
+                    }
+                    else if (GameBoard[j, i] == 'O')
+                    {
+                        player2Count++;
+                        if (player2Count == 4)
+                        {
+                            Console.WriteLine("Player 2 Wins");
+                            return true;
+                        }
+                    }
+                    else//if there is a # player counts are reset
+                    {
+                        player1Count = 0;
+                        player2Count = 0;
+                    }
+                }
+
+            }// End of for loop
+            return false; // will return false with no winner leading the main method to go to the next step
+        }// End of CheckWinningColumns
+        public static bool CheckWinningDiagonal1(char[,] GameBoard)
+        {
+            int player1Count = 0;
+            int player2Count = 0;
+
+            int k = 0;
+            for (int i = 2; i <= 5; i++)
+            {
+                if (GameBoard[i, k] == 'X')
+                {
+                    player1Count++;
+                    if (player1Count == 4)
+                    {
+                        Console.WriteLine("Player 1 Wins");
+                        return true;
+                    }
+                }
+                else if (GameBoard[i, k] == 'O')
+                {
+                    player2Count++;
+                    if (player2Count == 4)
+                    {
+                        Console.WriteLine("Player 2 Wins");
+                        return true;
+                    }
+                }
+                else//if there is a # player counts are reset
+                {
+                    player1Count = 0;
+                    player2Count = 0;
+                }
+                k++;
+            }//End of for loop              
+
+            return false;// We return false after checking for all winning possiblies
         }
+    
 
 
-    }// End of Game Class
-
-
+    }// End of Game class
 
     internal class Program
     {
@@ -314,7 +463,7 @@ namespace ConnectFour
                 // Next two loops are for obtaininga valid move from each player
                 do// Loop until a valid move is made then display the board
                 {//--------------------------------------------------------------------
-                    // Prompt player 1 to enter a column number for thier move
+                 // Prompt player 1 to enter a column number for thier move
                     Console.WriteLine("Player 1 please enter a column number for your move : ");
                     columnNumber = int.Parse(Console.ReadLine());
                     moveComplete = currentGame.MakeAMove(columnNumber, 'X');
@@ -349,7 +498,7 @@ namespace ConnectFour
                 {
                     if (currentGame.CheckForWinner()) break;
                 }
-                    
+
                 //ToDo some kind of winning screen and assigning values to propteries in the player class
 
 
@@ -359,5 +508,6 @@ namespace ConnectFour
 
             }
         }// End of Main
-    }
+    }     
+    
 }
