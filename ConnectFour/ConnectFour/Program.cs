@@ -187,26 +187,27 @@ namespace ConnectFour
         public bool CheckForWinner()
         {            
             while (true)
-            {
+            {//Todo Make lists of winning line cords and check them in a loop instead of having so many lines of code 
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
                 if (CheckWinningColumns(GameBoard, CurrentPlayersInGame)== true) return true;
                 // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction 
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame,2,0,5) == true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 1, 0, 5) == true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 0, 5) == true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 1, 5) == true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 2, 4) == true) return true;
-                if (CheckWinningDiagonal1(GameBoard, CurrentPlayersInGame, 0, 3, 3) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame,2,0,5) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 1, 0, 5) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 0, 5) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 1, 5) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 2, 4) == true) return true;
+                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 3, 3) == true) return true;
                 // Diagonal lines top right to bottom left there are six possibilities that can hold a winner in this direction 
-                // ToDo check all diagonals top right to bottom left
-                
-                //if (CheckWinningDiagonal2(GameBoard) == true) return true;                              
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0,3,3) == true) return true;   
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 4, 4) == true) return true;
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 5, 5) == true) return true;
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 6, 5) == true) return true;
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 1, 6, 5) == true) return true;
+                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 2, 6, 5) == true) return true;
 
                 return false;// We return false after checking for all winning possiblies
             }
-
         }   
-
         public static bool CheckWinningRows(char[,] GameBoard, List<Player> CurrentPlayersInGame)
         {
             int player1Count = 0;
@@ -334,7 +335,7 @@ namespace ConnectFour
             }// End of for loop
             return false; // if we get here there is no winner we will move to the next step to check for a winner
         }// End of CheckWinningColumns
-        public static bool CheckWinningDiagonal1(char[,] GameBoard, List<Player> CurrentPlayersInGame, int iStarter,int k, int iLimit)
+        public static bool CheckWinningDiagonalTopLeftToBottomRight(char[,] GameBoard, List<Player> CurrentPlayersInGame, int iStarter,int k, int iLimit)
         {
             int player1Count = 0;
             int player2Count = 0;
@@ -393,7 +394,65 @@ namespace ConnectFour
             }//End of for loop            
             return false;// We return false after checking for all winning possiblies
         }// End of CheckWinningDiagonal1
-    
+        public static bool CheckWinningDiagonalTopRightToBottomLeft(char[,] GameBoard,List<Player> CurrentPlayersInGame,int iStarter,int  k, int iLimit)
+        {
+            int player1Count = 0;
+            int player2Count = 0;
+
+            //int k = 0;
+            for (int i = iStarter; i <= iLimit; i++)
+            {
+                if (GameBoard[i, k] == 'X')
+                {
+                    player1Count++;
+                    player2Count = 0;
+                    if (player1Count == 4)
+                    {
+                        foreach (Player player in CurrentPlayersInGame)
+                        {
+                            if (player.GetNumber() == 1)
+                            {
+                                player.AddWin();
+                                Console.WriteLine($"{player.GetName()} Wins");
+                            }
+                            else
+                            {
+                                player.AddLoss();
+                            }
+                        }
+                        return true;
+                    }
+                }
+                else if (GameBoard[i, k] == 'O')
+                {
+                    player2Count++;
+                    player1Count = 0;
+                    if (player2Count == 4)
+                    {
+                        foreach (Player player in CurrentPlayersInGame)
+                        {
+                            if (player.GetNumber() == 2)
+                            {
+                                player.AddWin();
+                                Console.WriteLine($"{player.GetName()} Wins");
+                            }
+                            else
+                            {
+                                player.AddLoss();
+                            }
+                        }
+                        return true;
+                    }
+                }
+                else//if there is a # player counts are reset
+                {
+                    player1Count = 0;
+                    player2Count = 0;
+                }
+                k--;
+            }//End of for loop            
+            return false;// We return false after checking for all winning possiblies
+        }
 
 
     }// End of Game class
