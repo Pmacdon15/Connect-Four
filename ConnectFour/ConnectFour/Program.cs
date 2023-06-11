@@ -404,8 +404,7 @@ namespace ConnectFour
                     player2Count = 0;
                 }
                 k++;
-            }//End of for loop              
-
+            }//End of for loop            
             return false;// We return false after checking for all winning possiblies
         }
     
