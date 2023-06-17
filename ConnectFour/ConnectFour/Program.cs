@@ -196,8 +196,18 @@ namespace ConnectFour
         }
 
         //ToDo check for whiiner 
-        public bool CheckForWinner()
-        {            
+        public bool CheckForWinner(int numberOfMoves)
+        {   
+            if (numberOfMoves==42)
+            {
+                Console.Clear();
+                Console.WriteLine("Game is a draw");
+                foreach (Player player in CurrentPlayersInGame)
+                {
+                    player.AddDraw();
+                }
+                return true;
+            }
             while (true)
             {             
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
@@ -572,13 +582,30 @@ namespace ConnectFour
                     {
                         Console.WriteLine(currentGame.CurrentPlayersInGame[i].GetName() + ", please enter a column number for your move : ");
                         columnNumber = int.Parse(Console.ReadLine());
-                        if (i == 0) currentGame.MakeAMove(columnNumber, 'X');
-                        else currentGame.MakeAMove(columnNumber, 'O');
-
+                        if (i == 0)
+                        {
+                            if (!currentGame.MakeAMove(columnNumber, 'X'))
+                            {
+                                Console.WriteLine("Invalid Move");
+                                i--;
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            if (!currentGame.MakeAMove(columnNumber, 'O'))
+                            {
+                                Console.WriteLine("Invalid Move");
+                                i--;
+                                continue;
+                            }
+                        }
                         numberOfMoves++;
+                        
+                        
                         if (numberOfMoves > 6)
                         {
-                            if (currentGame.CheckForWinner())
+                            if (currentGame.CheckForWinner(numberOfMoves))
                             {
                                 gameOn = false;
                                 //Console.Clear();
@@ -586,7 +613,8 @@ namespace ConnectFour
                                 break;
                             }
                         }
-
+                        
+                        
 
                         // must be at the end of the loop for display Purposes 
                         Console.Clear();
@@ -595,7 +623,7 @@ namespace ConnectFour
                 }
                     
                 
-                //Display Players for testing purposes
+                //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
                     Console.WriteLine(p.ToString());// Todo maybe display winner first 
