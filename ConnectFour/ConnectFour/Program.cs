@@ -113,11 +113,13 @@ namespace ConnectFour
         }
 
     }// End of Computer Class
-
+    /// <summary>
+    /// This game class and controls most parts of the game.
+    /// </summary>
     public class Game
     {
         private char[,] GameBoard { get; set; } = new char[6, 7];
-        public bool Status { get; set; }
+        //public bool Status { get; set; }
         public  List<Player> CurrentPlayersInGame;
         public Game()
         {
@@ -131,8 +133,18 @@ namespace ConnectFour
                     GameBoard[i, j] = '#'; // 'X' is the assigned value of the char type
                 }
             }
-            Status = true;
+            //Status = true; // on its way out want to remove but scared to break it
 
+        }
+        public void resetBoard()
+        {
+            for (int i = 0; i < 6; i++)              //6 is the number of rows
+            {
+                for (int j = 0; j < 7; j++)          //7 is the number of columns
+                {
+                    GameBoard[i, j] = '#'; // 'X' is the assigned value of the char type
+                }
+            }
         }
         public void DisplayBoard()
         {
@@ -147,7 +159,7 @@ namespace ConnectFour
             }
             Console.WriteLine("----------------");
             Console.WriteLine(" 1 2 3 4 5 6 7");
-        }
+        }//This method displays the board
         // Add PLayers
         public void AddHumanPlayer(string name, int playerNumber) // This will be default for adding a human player
         {
@@ -188,11 +200,11 @@ namespace ConnectFour
         {            
             while (true)
             {             
-                //Todo Make lists of winning line cords and check them in a loop instead of having so many lines of code 
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
                 if (CheckWinningColumns(GameBoard, CurrentPlayersInGame)== true) return true;
 
-                List<(int iStarter, int k, int iLimit)> winningLines1 = new List<(int, int, int)>()
+                // Diagonal lines top right to bottom left, there are six possibilities that can hold a winner in this direction 
+                List<(int iStarter, int k, int iLimit)> winningLines1 = new List<(int, int, int)>()// Winning lines top left to bottom right 
                 {
                     (2, 0, 5),
                     (1, 0, 5),
@@ -205,19 +217,10 @@ namespace ConnectFour
 
                 foreach (var line in winningLines1)
                 {
-                    if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;
+                    if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;// Checks the each line
                 }
-                // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction 
-                /*
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame,2,0,5) == true) return true;
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 1, 0, 5) == true) return true;
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 0, 5) == true) return true;
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 1, 5) == true) return true;
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 2, 4) == true) return true;
-                if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, 0, 3, 3) == true) return true;
-                */
-
-                List<(int iStarter, int k, int iLimit)> winningLines2 = new List<(int, int, int)>()
+                // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction               
+                List<(int iStarter, int k, int iLimit)> winningLines2 = new List<(int, int, int)>() // Winnning lines top right to bottom left
                 {                    
                     (0, 3, 3),
                     (0, 4, 4),
@@ -228,18 +231,8 @@ namespace ConnectFour
                 };
                 foreach (var line in winningLines2)
                 {
-                    if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;
+                    if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;// Checks the each line
                 }
-
-                /*
-                // Diagonal lines top right to bottom left there are six possibilities that can hold a winner in this direction 
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0,3,3) == true) return true;   
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 4, 4) == true) return true;
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 5, 5) == true) return true;
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 0, 6, 5) == true) return true;
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 1, 6, 5) == true) return true;
-                if (CheckWinningDiagonalTopRightToBottomLeft(GameBoard, CurrentPlayersInGame, 2, 6, 5) == true) return true;
-                */
 
                 return false;// We return false after checking for all winning possiblies
             }
@@ -497,110 +490,150 @@ namespace ConnectFour
     {
         static void Main(string[] args)
         {
-            // There will be a loop over everything in the main method it will be a do while doYouWantToPlayAgain == "Y" 
-                        
-            //Start new game 
+            bool samePlayers = false;
+            bool willPlayAgain = false;
             Game currentGame = new Game();
 
-            // Input player 1
-            Console.WriteLine("Enter Player 1's name: ");
-            string player1Name = Console.ReadLine();
-            // Add Player 1
-            currentGame.AddHumanPlayer(player1Name, 1);
+            do
+            {                
+                //Todo Display player name instead of player 1
+                //Start new game                 
 
-            // Input player 2
-            Console.WriteLine("Will Player 2 be Human (Y/N)? ");
-            string willPlayer2BeHuman = Console.ReadLine();
+                currentGame.resetBoard();
 
-            string player2Name = "";
-            if (willPlayer2BeHuman.ToUpper() == "Y")
-            {
-                Console.WriteLine("Enter Player 2's name: ");
-                player2Name = Console.ReadLine();
-                currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
-            }
-            else// Add Computer player default or with name 
-            {
-                Console.WriteLine("Do you want to enter a name for Computer player 2 (Y/N)? "); 
-                string willPlayer2HaveAName = Console.ReadLine();
-                if (willPlayer2HaveAName.ToUpper() == "Y")
+
+                if (!samePlayers)
                 {
-                    Console.WriteLine("Enter Player 2's name: ");
-                    player2Name = Console.ReadLine();
-                    currentGame.AddComputerPlayer(player2Name, 2);
-                }
-                else
-                {
-                    currentGame.AddComputerPlayer(2);
-                }
-            }
-           
-            //Display Players for testing purposes
-            foreach (Player p in currentGame.CurrentPlayersInGame)
-            {
-                Console.WriteLine(p.ToString());
-            }
+                    // Input player 1
+                    Console.WriteLine("Enter Player 1's name: ");
+                    string player1Name = Console.ReadLine();
+                    // Add Player 1
+                    currentGame.AddHumanPlayer(player1Name, 1);
 
-            //Display Board b4 game starts
-            currentGame.DisplayBoard();
+                    // Input player 2
+                    Console.WriteLine("Will Player 2 be Human (Y/N)? ");
+                    string willPlayer2BeHuman = Console.ReadLine();
 
-            bool moveComplete = false;
-            int columnNumber;
-            int numberOfMoves = 0;
-            // Loop until there is a winner or a draw
-            while (true)
-            {//------------------------------------------------------------------------
 
-                // Next two loops are for obtaininga valid move from each player
-                do// Loop until a valid move is made then display the board
-                {                 
-                    Console.WriteLine("Player 1 please enter a column number for your move : ");
-                    columnNumber = int.Parse(Console.ReadLine());
-                    moveComplete = currentGame.MakeAMove(columnNumber, 'X');
 
-                } while (!moveComplete);
-                numberOfMoves++;
-                moveComplete = false;
-                Console.Clear();
-
-                currentGame.DisplayBoard();
-                if (numberOfMoves > 6)
-                {
-                    if (currentGame.CheckForWinner()) break;
+                    //this is so is value is not assigned it does not crash
+                    string player2Name = "";
+                    if (willPlayer2BeHuman.ToUpper() == "Y")
+                    {
+                        Console.WriteLine("Enter Player 2's name: ");
+                        player2Name = Console.ReadLine();
+                        currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
+                    }
+                    else// Add Computer player default or with name 
+                    {
+                        Console.WriteLine("Do you want to enter a name for Computer player 2 (Y/N)? ");
+                        string willPlayer2HaveAName = Console.ReadLine();
+                        if (willPlayer2HaveAName.ToUpper() == "Y")
+                        {
+                            Console.WriteLine("Enter Player 2's name: ");
+                            player2Name = Console.ReadLine();
+                            currentGame.AddComputerPlayer(player2Name, 2);
+                        }
+                        else
+                        {
+                            currentGame.AddComputerPlayer(2);
+                        }
+                    }
                 }
 
-                do// Loop until a valid move is made then display the board
+                //Display Players for testing purposes
+                foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
-                    Console.WriteLine("Player 2 please enter a column number for your move : ");
-                    columnNumber = int.Parse(Console.ReadLine());
-                    moveComplete = currentGame.MakeAMove(columnNumber, 'O');
+                    Console.WriteLine(p.ToString());
+                }
 
-                } while (!moveComplete);
-                numberOfMoves++;
-                moveComplete = false;
-                Console.Clear();
+                //Display Board b4 game starts
                 currentGame.DisplayBoard();
 
-                //Todo check for winner after 7 moves. you will need a counter.
+                bool moveComplete = false;
+                int columnNumber;
+                int numberOfMoves = 0;
+                // Loop until there is a winner or a draw
+                while (true)
+                {//------------------------------------------------------------------------
 
-                if (numberOfMoves > 6)
+                    // Next two loops are for obtaininga valid move from each player
+                    do// Loop until a valid move is made then display the board
+                    {
+                        Console.WriteLine("Player 1 please enter a column number for your move : ");
+                        columnNumber = int.Parse(Console.ReadLine());
+                        moveComplete = currentGame.MakeAMove(columnNumber, 'X');
+
+                    } while (!moveComplete);
+                    numberOfMoves++;
+                    moveComplete = false;
+                    Console.Clear();
+
+                    currentGame.DisplayBoard();
+                    if (numberOfMoves > 6)
+                    {
+                        if (currentGame.CheckForWinner()) break;
+                    }
+
+                    do// Loop until a valid move is made then display the board
+                    {
+                        Console.WriteLine("Player 2 please enter a column number for your move : ");
+                        columnNumber = int.Parse(Console.ReadLine());
+                        moveComplete = currentGame.MakeAMove(columnNumber, 'O');
+
+                    } while (!moveComplete);
+                    numberOfMoves++;
+                    moveComplete = false;
+                    Console.Clear();
+                    currentGame.DisplayBoard();
+
+                    //Todo check for winner after 7 moves. you will need a counter.
+
+                    if (numberOfMoves > 6)
+                    {
+                        if (currentGame.CheckForWinner()) break;
+                    }
+
+                    //ToDo some kind of winning screen and assigning values to propteries in the player class
+
+
+
+
+
+                }
+                //Display Players for testing purposes
+                foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
-                    if (currentGame.CheckForWinner()) break;
+                    Console.WriteLine(p.ToString());// Todo maybe display winner first 
                 }
 
-                //ToDo some kind of winning screen and assigning values to propteries in the player class
-
-               
 
 
 
+                // Play again input 
+                Console.WriteLine("Do you want to play again (Y/N)? ");
+                string playAgian = Console.ReadLine();
 
-            }
-            //Display Players for testing purposes
-            foreach (Player p in currentGame.CurrentPlayersInGame)
-            {
-                Console.WriteLine(p.ToString());
-            }
+                if (playAgian.ToUpper() == "Y")
+                {
+                    willPlayAgain = true;
+
+                    Console.WriteLine("Do you want to use the same players (Y/N)? ");
+                    string useTheSamePlayers = Console.ReadLine();
+                    if (useTheSamePlayers.ToUpper() == "Y") samePlayers = true;
+                    else samePlayers = false;
+
+                }
+
+                else willPlayAgain = false;
+
+                
+
+
+
+
+                    
+            } while (willPlayAgain);// End of do while loop
 
         }// End of Main
     }     
