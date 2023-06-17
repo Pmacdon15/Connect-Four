@@ -259,7 +259,8 @@ namespace ConnectFour
                             {
                                 if(player.GetNumber() == 1)
                                 {
-                                    Console.WriteLine($"{player.GetName()} Wins");
+                                    Console.Clear();                                    
+                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                                     player.AddWin();
                                 }
                                 else
@@ -281,8 +282,9 @@ namespace ConnectFour
                             {
                                 if (player.GetNumber() == 2)
                                 {
+                                    Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins");
+                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -322,8 +324,9 @@ namespace ConnectFour
                             {
                                 if (player.GetNumber() == 1)
                                 {
+                                    Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins");
+                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -343,8 +346,9 @@ namespace ConnectFour
                             {
                                 if (player.GetNumber() == 2)
                                 {
+                                    Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins");
+                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -382,8 +386,9 @@ namespace ConnectFour
                         {
                             if (player.GetNumber() == 1)
                             {
+                                Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins");
+                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -403,8 +408,9 @@ namespace ConnectFour
                         {
                             if (player.GetNumber() == 2)
                             {
+                                Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins");
+                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -441,8 +447,9 @@ namespace ConnectFour
                         {
                             if (player.GetNumber() == 1)
                             {
+                                Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins");
+                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -462,8 +469,9 @@ namespace ConnectFour
                         {
                             if (player.GetNumber() == 2)
                             {
+                                Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins");
+                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -548,59 +556,45 @@ namespace ConnectFour
                 }
 
                 //Display Board b4 game starts
+                Console.WriteLine("Hit enter to Continue");
+                Console.ReadLine();
+                Console.Clear();
                 currentGame.DisplayBoard();
 
-                bool moveComplete = false;
+                //bool moveComplete = false;  // on its way out
                 int columnNumber;
                 int numberOfMoves = 0;
-                // Loop until there is a winner or a draw
-                while (true)
-                {//------------------------------------------------------------------------
+                bool gameOn = true;
 
-                    // Next two loops are for obtaininga valid move from each player
-                    do// Loop until a valid move is made then display the board
+                while (gameOn)
+                {
+                    for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                     {
-                        Console.WriteLine("Player 1 please enter a column number for your move : ");
+                        Console.WriteLine(currentGame.CurrentPlayersInGame[i].GetName() + ", please enter a column number for your move : ");
                         columnNumber = int.Parse(Console.ReadLine());
-                        moveComplete = currentGame.MakeAMove(columnNumber, 'X');
+                        if (i == 0) currentGame.MakeAMove(columnNumber, 'X');
+                        else currentGame.MakeAMove(columnNumber, 'O');
 
-                    } while (!moveComplete);
-                    numberOfMoves++;
-                    moveComplete = false;
-                    Console.Clear();
+                        numberOfMoves++;
+                        if (numberOfMoves > 6)
+                        {
+                            if (currentGame.CheckForWinner())
+                            {
+                                gameOn = false;
+                                //Console.Clear();
+                                currentGame.DisplayBoard();
+                                break;
+                            }
+                        }
 
-                    currentGame.DisplayBoard();
-                    if (numberOfMoves > 6)
-                    {
-                        if (currentGame.CheckForWinner()) break;
+
+                        // must be at the end of the loop for display Purposes 
+                        Console.Clear();
+                        currentGame.DisplayBoard();
                     }
-
-                    do// Loop until a valid move is made then display the board
-                    {
-                        Console.WriteLine("Player 2 please enter a column number for your move : ");
-                        columnNumber = int.Parse(Console.ReadLine());
-                        moveComplete = currentGame.MakeAMove(columnNumber, 'O');
-
-                    } while (!moveComplete);
-                    numberOfMoves++;
-                    moveComplete = false;
-                    Console.Clear();
-                    currentGame.DisplayBoard();
-
-                    //Todo check for winner after 7 moves. you will need a counter.
-
-                    if (numberOfMoves > 6)
-                    {
-                        if (currentGame.CheckForWinner()) break;
-                    }
-
-                    //ToDo some kind of winning screen and assigning values to propteries in the player class
-
-
-
-
-
                 }
+                    
+                
                 //Display Players for testing purposes
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
@@ -621,18 +615,21 @@ namespace ConnectFour
                     Console.WriteLine("Do you want to use the same players (Y/N)? ");
                     string useTheSamePlayers = Console.ReadLine();
                     if (useTheSamePlayers.ToUpper() == "Y") samePlayers = true;
-                    else samePlayers = false;
-
+                    else
+                    {
+                        currentGame.CurrentPlayersInGame.Clear();
+                        samePlayers = false;
+                    }
                 }
 
                 else willPlayAgain = false;
-
-                
-
+                Console.Clear(); // clear questions after game is over
 
 
 
-                    
+
+
+
             } while (willPlayAgain);// End of do while loop
 
         }// End of Main
