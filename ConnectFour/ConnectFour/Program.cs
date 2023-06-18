@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace ConnectFour
 {
@@ -52,7 +53,7 @@ namespace ConnectFour
         /// <param name="playerNumber"></param>
         public Player(string name, int playerNumber)
         {
-            Name = name;
+            Name = CapitalizeName(name);
             GamesWon = 0;
             GamesLost = 0;
             GamesDrawn = 0;
@@ -76,11 +77,27 @@ namespace ConnectFour
             GamesLost = gamesLost;
             GamesDrawn = gamesDrawn;
             TotalGames = gamesWon+gamesLost+gamesDrawn;
-        }     
+        }
         /// <summary>
-        /// Used to get the player's name as it a a protected.
+        /// This method capitalizes players names so that they are all uniform.
         /// </summary>
+        /// <param name="name"></param>
         /// <returns></returns>
+        public static string CapitalizeName(string name)
+        {
+            string[] nameParts = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string capitalized = "";
+
+            foreach (string part in nameParts)
+            {
+                capitalized += char.ToUpper(part[0]) + part.Substring(1) + " ";
+            }
+            return capitalized;        
+        }
+        /// <summary>
+    /// Used to get the player's name as it a a protected.
+    /// </summary>
+    /// <returns></returns>
         public int GetNumber()
         {
             return PlayerNumber ;
