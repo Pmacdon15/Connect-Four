@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
-using System.Threading;
-using System.Xml.Linq;
 
 namespace ConnectFour
 {
@@ -660,6 +657,10 @@ namespace ConnectFour
             bool willPlayAgain = false;
             Game currentGame = new Game();
 
+            Console.WriteLine("Welcome to Connect Four!");
+            Console.WriteLine("Please Press Enter to Continue");
+            Console.ReadLine();
+            
             do
             {      
                 //Start new game
@@ -671,34 +672,63 @@ namespace ConnectFour
                     string player1Name = Console.ReadLine();
                     // Add Player 1
                     currentGame.AddHumanPlayer(player1Name, 1);
+                    string willPlayer2BeHuman = "";
 
                     // Input player 2
-                    Console.WriteLine("Will Player 2 be Human (Y/N)? ");
-                    string willPlayer2BeHuman = Console.ReadLine();
+                    //This loop Excption handles if the user does not enter Y or N
+                    do
+                    {
+                        Console.WriteLine("Will Player 2 be Human (Y/N)? ");
+                        willPlayer2BeHuman = Console.ReadLine();
+                        
+                        if(willPlayer2BeHuman.ToUpper() != "Y" && willPlayer2BeHuman.ToUpper() != "N")
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter Y or N");
+                        }
 
-                    //this is so is value is not assigned it does not crash
+                    } while (willPlayer2BeHuman.ToUpper() != "Y" && willPlayer2BeHuman.ToUpper() != "N");
+
                     string player2Name = "";
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
                         Console.WriteLine("Enter Player 2's name: ");
                         player2Name = Console.ReadLine();
-                        currentGame.AddHumanPlayer(player2Name,2);// Add human player2
+                        currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
                     }
-                    else// Add Computer player default or with name 
+                    else if (willPlayer2BeHuman.ToUpper() == "N")      // Add Computer player default or with name 
                     {
-                        Console.WriteLine("Do you want to enter a name for Computer player 2 (Y/N)? ");
-                        string willPlayer2HaveAName = Console.ReadLine();
+                        string willPlayer2HaveAName = "";
+                        //This loop Excption handles if the user does not enter Y or N
+                        do
+                        {
+                            Console.WriteLine("Do you want to enter a name for Computer player 2 (Y/N)? ");
+                            willPlayer2HaveAName = Console.ReadLine();
+
+
+                            if (willPlayer2HaveAName.ToUpper() != "Y" && willPlayer2HaveAName.ToUpper() != "N")
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Please enter Y or N");
+                            }
+
+                        } while (willPlayer2HaveAName.ToUpper() != "Y" && willPlayer2HaveAName.ToUpper() != "N");
+                            
+
                         if (willPlayer2HaveAName.ToUpper() == "Y")
                         {
                             Console.WriteLine("Enter Player 2's name: ");
                             player2Name = Console.ReadLine();
                             currentGame.AddComputerPlayer(player2Name);// Assumes a default of 2 for computer players 
                         }
-                        else
+                        else //if (willPlayer2HaveAName.ToUpper() == "N")
                         {
                             currentGame.AddComputerPlayer(2);
                         }
-                    }
+                       
+                       
+                        
+                    }   
                 }
 
                 //Display Players before game starts
