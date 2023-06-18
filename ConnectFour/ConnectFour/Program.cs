@@ -1,28 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
 using System.Xml.Linq;
 
 namespace ConnectFour
 {
-
-    public abstract class Player //abstract class cannot be instantiated
+    /// <summary>
+    /// Player is an abstract class that is used to create a HumanPlayer and a ComputerPlayer.
+    /// </summary>
+    public abstract class Player 
     {
-        protected string Name { get; set; }
+        /// <summary>
+        /// Player Name is protected so that it can only be accessed by the player class and its subclasses.
+        /// </summary>
+        public  string Name { get; private set; }
+        /// <summary>
+        /// Player Number, 1 or 2, is protected so that it can only be accessed by the player class and its subclasses.
+        /// </summary>
         protected int PlayerNumber { get; set; }
+        /// <summary>
+        /// Is a statistic That belongs to the player.
+        /// </summary>
         protected int GamesWon { get; set; }
+        /// <summary>
+        /// Is a statistic That belongs to the player.
+        /// </summary>
         protected int GamesLost { get; set; }
+        /// <summary>
+        /// Is a statistic That belongs to the player.
+        /// </summary>
         protected int GamesDrawn { get; set; }
+        /// <summary>
+        /// Is a statistic That belongs to the player.
+        /// </summary>
         protected int TotalGames { get; set; }
-        public Player(int playerNumber) // a default Character for when no name is entered 
+        /// <summary>
+        /// This will be used when a computer player with no name is entered.
+        /// </summary>
+        /// <param name="playerNumber"></param>
+        public Player(int playerNumber) 
         {
-            Name = "Ken Knif";// change this b4 you hand it in .
+            Name = "Ken Knif";
             GamesWon = 10;
             GamesLost = 5;
             GamesDrawn = 1;
             TotalGames = 16;
             PlayerNumber = playerNumber;
         }
+        /// <summary>
+        /// This is a basic player constructor with zero values as default, This will be used most times when a player is created.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerNumber"></param>
         public Player(string name, int playerNumber)
         {
             Name = name;
@@ -32,107 +62,154 @@ namespace ConnectFour
             TotalGames = 0;
             PlayerNumber = playerNumber;
         }  
-        public Player(string name, int playerNumber, int gamesWon, int gamesLost, int gamesDrawn, int totalGames)// for entering custum stats in the future
+        /// <summary>
+       /// This constructor is used for entering custom player data, it is not used within the main program. It was created in case a need  arises for entering custom information.
+       /// </summary>
+       /// <param name="name"></param>
+       /// <param name="playerNumber"></param>
+       /// <param name="gamesWon"></param>
+       /// <param name="gamesLost"></param>
+       /// <param name="gamesDrawn"></param>
+       /// <param name="totalGames"></param>
+        public Player(string name, int playerNumber, int gamesWon=0, int gamesLost = 0, int gamesDrawn = 0)
         {
             Name = name;
             PlayerNumber = playerNumber;
             GamesWon = gamesWon;
             GamesLost = gamesLost;
             GamesDrawn = gamesDrawn;
-            TotalGames = totalGames;
-        }
-        
+            TotalGames = gamesWon+gamesLost+gamesDrawn;
+        }     
+        /// <summary>
+        /// Used to get the player's name as it a a protected.
+        /// </summary>
+        /// <returns></returns>
         public int GetNumber()
         {
             return PlayerNumber ;
-        }
-        public string GetName()
-        {
-            return Name;
-        }
+        }       
+        /// <summary>
+        /// This method is abstract and must be overridden by computer and player classes, it will be used Four adding a win to the player statistics and incrementing total games. 
+        /// </summary>
         public abstract void AddWin();
-
-        public void AddLoss()// ToDo make these abstract becuase no player wil play a game b4 they are decided to be human or computer
+        /// <summary>
+        /// This method is used to add a loss to the player's statistics and increment the total games played.
+        /// </summary>
+        public void AddLoss()
         {
             GamesLost++;
             TotalGames++;
         }
+        /// <summary>
+        /// This method is virtual and will be overridden by the human and computer player classes. It adds a draw to the player's statistics and increments the total games played.
+        /// </summary>
         public virtual void AddDraw()
         {
             GamesDrawn++;
             TotalGames++;
         }
+        /// <summary>
+        /// This overrides the two string method for player subclasses human and computer. It will display a list of their statistics with a line above and below.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
         }
 
     }// End of Player Class
-
+    /// <summary>
+    /// Human player class is a child of the player class
+    /// </summary>
     public class HumanPlayer : Player
     {
+        /// <summary>
+        /// this is used to determine if the player is human, It will be set to true for human players.
+        /// </summary>
         public bool IsHuman { get; set; }
-
+        /// <summary>
+        /// use one creating a human player for player one or player 2.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerNumber"></param>
         public HumanPlayer(string name, int playerNumber) : base(name, playerNumber)
         {
             IsHuman = true;
         }
+        /// <summary>
+        /// Use to add a win to the player's statistics. This is overridden from player class.
+        /// </summary>
         public override void AddWin()
         {
             GamesWon++;
             TotalGames++;
         }
+        /// <summary>
+        /// Used to add a draw to the players statistics. This is overridden from player class.
+        /// </summary>
         public override void AddDraw()
         {
             GamesDrawn++;
             TotalGames++;
         }
 
-        /*  //will be removed if nothing breaks
-        public override string ToString()
-        {
-            return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
-        }
-        */
-
     }// End of Human Class
-
+    /// <summary>
+    /// The computer player class its a child of the player class
+    /// </summary>
     public class ComputerPlayer : Player
     {
         //Todo add a random name generator for the computer player
         //Todo Add a random next move
         //Todo add a random next move that is a winning move
-
+        /// <summary>
+        /// IsHuman is used to determine if the player is a human or a computer and will be set to false for computers.
+        /// </summary>
         public bool IsHuman { get; set; }
-        public ComputerPlayer(int playerNumber) : base(playerNumber)// used when entering playername is not nessary
+        /// <summary>
+        /// Used when Entering a player name is not nessary.
+        /// </summary>
+        /// <param name="playerNumber"></param>
+        public ComputerPlayer(int playerNumber) : base(playerNumber)
         {
 
         }
+         /// <summary>
+        /// For adding a computer player with a specific name and number. It also uses the base class player as a default constructor.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerNumber"></param>
         public ComputerPlayer(string name, int playerNumber) : base(name, playerNumber)
         {
             IsHuman = false;
         }
+        /// <summary>
+        /// AddWin is Overridden from the Player class to allow for the computer player to add a win to its stats.
+        /// </summary>
         public override void AddWin()
         {
             GamesWon++;
             TotalGames++;
         }
-        /*  //will be removed if nothing breaks
-        public override string ToString()
-        {
-            return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
-        }
-        */
-
+        
     }// End of Computer Class
     /// <summary>
-    /// This game class and controls most parts of the game.
+    /// This game class and controls most parts of the Game.
     /// </summary>
     public class Game
     {
+        //public bool Status { get; set; }  // This is on its way out.!!!!!!
+        /// <summary>
+        /// The GameBoard is a 2D array of char type that is used to display the game board and keep track of the game state.
+        /// </summary>
         private char[,] GameBoard { get; set; } = new char[6, 7];
-        //public bool Status { get; set; }
+        /// <summary>
+        /// A game object will keep a list of players in the game. 
+        /// </summary>
         public  List<Player> CurrentPlayersInGame;
+        /// <summary>
+        /// Default Constructor for the Game Class,  Initializes the game board and creates a list of current players to be populated later on.
+        /// </summary>
         public Game()
         {
             CurrentPlayersInGame = new List<Player>();
@@ -148,7 +225,10 @@ namespace ConnectFour
             //Status = true; // on its way out want to remove but scared to break it
 
         }
-        public void resetBoard()
+        /// <summary>
+        /// Resets the GameBoard to its default state.
+        /// </summary>
+        public void ResetBoard()
         {
             for (int i = 0; i < 6; i++)              //6 is the number of rows
             {
@@ -158,6 +238,9 @@ namespace ConnectFour
                 }
             }
         }
+        /// <summary>
+        /// This method displays the board.
+        /// </summary>
         public void DisplayBoard()
         {
             for (int i = 0; i < GameBoard.GetLength(0); i++)
@@ -171,22 +254,41 @@ namespace ConnectFour
             }
             Console.WriteLine("----------------");
             Console.WriteLine(" 1 2 3 4 5 6 7");
-        }//This method displays the board
+        }
         // Add PLayers
-        public void AddHumanPlayer(string name, int playerNumber) // This will be default for adding a human player
+        /// <summary>
+        /// This will be default for adding a human player
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerNumber"></param>
+        public void AddHumanPlayer(string name, int playerNumber) 
         {
             CurrentPlayersInGame.Add(new HumanPlayer(name, playerNumber));
         }
-        public void AddComputerPlayer(int playerNumber)// For adding The default computer 
+        /// <summary>
+        /// For adding The default computer player.
+        /// </summary>
+        /// <param name="playerNumber"></param>
+        public void AddComputerPlayer(int playerNumber)
         {
             CurrentPlayersInGame.Add(new ComputerPlayer(playerNumber));
         }
-        public void AddComputerPlayer(string name, int playerNumber) // This one lets you add the name of the computer player
+        /// <summary>
+        /// Adds a computer player with a name assuming all computers will be player 2 unless other wise entered.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="playerNumber"></param>
+        public void AddComputerPlayer(string name, int playerNumber = 2) 
         {
-            CurrentPlayersInGame.Add(new ComputerPlayer(name, playerNumber));
+            CurrentPlayersInGame.Add(new ComputerPlayer(name, playerNumber = 2)); 
         }
 
-        // MakeAMove
+        /// <summary>
+        /// MakeAMove Allows the player to make a move on the game board.
+        /// </summary>
+        /// <param name="columnNumber"></param>
+        /// <param name="playerSymbol"></param>
+        /// <returns></returns>
         public bool MakeAMove(int columnNumber, char playerSymbol)
         {
             if (columnNumber <= 7 && columnNumber > 0)
@@ -207,7 +309,11 @@ namespace ConnectFour
 
         }
 
-        //ToDo check for whiiner 
+        /// <summary>
+        /// CheckForWinner checks for a winner in the game by using the methods CheckWinningRows, CheckWinningColumns, CheckWinningDiagonals top left to bottom right and top right to bottom left method.
+        /// </summary>
+        /// <param name="numberOfMoves"></param>
+        /// <returns></returns>
         public bool CheckForWinner(int numberOfMoves)
         {   
             if (numberOfMoves==42)
@@ -220,6 +326,7 @@ namespace ConnectFour
                 }
                 return true;
             }
+            // If not a tie check for a winner, if there is a winner return true otherwise after everything return false
             while (true)
             {             
                 if (CheckWinningRows(GameBoard, CurrentPlayersInGame) == true) return true; // When a method returns false it goes to the next step if it returns true stop checking for a winner 
@@ -236,12 +343,11 @@ namespace ConnectFour
                     (0, 3, 3),
                     (0, 3, 3)
                 };
-
                 foreach (var line in winningLines1)
                 {
                     if (CheckWinningDiagonalTopLeftToBottomRight(GameBoard, CurrentPlayersInGame, line.iStarter, line.k, line.iLimit) == true) return true;// Checks the each line
                 }
-                // Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction               
+                //Diagonal lines top left to bottom right , There are six possible lines that could hold a winner in this direction               
                 List<(int iStarter, int k, int iLimit)> winningLines2 = new List<(int, int, int)>() // Winnning lines top right to bottom left
                 {                    
                     (0, 3, 3),
@@ -259,6 +365,12 @@ namespace ConnectFour
                 return false;// We return false after checking for all winning possiblies
             }
         }   
+        /// <summary>
+        /// Checks The rows for a winner.
+        /// </summary>
+        /// <param name="GameBoard"></param>
+        /// <param name="CurrentPlayersInGame"></param>
+        /// <returns></returns>
         public static bool CheckWinningRows(char[,] GameBoard, List<Player> CurrentPlayersInGame)
         {
             int player1Count = 0;
@@ -282,7 +394,7 @@ namespace ConnectFour
                                 if(player.GetNumber() == 1)
                                 {
                                     Console.Clear();                                    
-                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                    Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                                     player.AddWin();
                                 }
                                 else
@@ -306,7 +418,7 @@ namespace ConnectFour
                                 {
                                     Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                    Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -327,6 +439,12 @@ namespace ConnectFour
             return false; // if we get here there is no winner we will move to the next step to check for a winner
 
         }// End of CheckWinningRows
+        /// <summary>
+        /// Checks the columns for a winner.
+        /// </summary>
+        /// <param name="GameBoard"></param>
+        /// <param name="CurrentPlayersInGame"></param>
+        /// <returns></returns>
         public static bool CheckWinningColumns(char[,] GameBoard, List<Player> CurrentPlayersInGame)
         {
             int player1Count = 0; // resets each row 
@@ -348,7 +466,7 @@ namespace ConnectFour
                                 {
                                     Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                    Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -370,7 +488,7 @@ namespace ConnectFour
                                 {
                                     Console.Clear();
                                     player.AddWin();
-                                    Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                    Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                                 }
                                 else
                                 {
@@ -390,6 +508,15 @@ namespace ConnectFour
             }// End of for loop
             return false; // if we get here there is no winner we will move to the next step to check for a winner
         }// End of CheckWinningColumns
+        /// <summary>
+        /// Checks the diagonal lines from top left to bottom right for a winner.
+        /// </summary>
+        /// <param name="GameBoard"></param>
+        /// <param name="CurrentPlayersInGame"></param>
+        /// <param name="iStarter"></param>
+        /// <param name="k"></param>
+        /// <param name="iLimit"></param>
+        /// <returns></returns>
         public static bool CheckWinningDiagonalTopLeftToBottomRight(char[,] GameBoard, List<Player> CurrentPlayersInGame, int iStarter,int k, int iLimit)
         {
             int player1Count = 0;
@@ -410,7 +537,7 @@ namespace ConnectFour
                             {
                                 Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -432,7 +559,7 @@ namespace ConnectFour
                             {
                                 Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -450,7 +577,16 @@ namespace ConnectFour
                 k++;
             }//End of for loop            
             return false;// We return false after checking for all winning possiblies
-        }// End of CheckWinningDiagonal1
+        }// End of CheckWinningDiagonal
+        /// <summary>
+        /// Checks for a winner from top right to bottom left.
+        /// </summary>
+        /// <param name="GameBoard"></param>
+        /// <param name="CurrentPlayersInGame"></param>
+        /// <param name="iStarter"></param>
+        /// <param name="k"></param>
+        /// <param name="iLimit"></param>
+        /// <returns></returns>
         public static bool CheckWinningDiagonalTopRightToBottomLeft(char[,] GameBoard,List<Player> CurrentPlayersInGame,int iStarter,int  k, int iLimit)
         {
             int player1Count = 0;
@@ -471,7 +607,7 @@ namespace ConnectFour
                             {
                                 Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -493,7 +629,7 @@ namespace ConnectFour
                             {
                                 Console.Clear();
                                 player.AddWin();
-                                Console.WriteLine($"{player.GetName()} Wins!!!!!!!!!!");
+                                Console.WriteLine($"{player.Name} Wins!!!!!!!!!!");
                             }
                             else
                             {
@@ -511,8 +647,7 @@ namespace ConnectFour
                 k--;
             }//End of for loop            
             return false;// We return false after checking for all winning possiblies
-        }
-
+        }// End of CheckWinningDiagonal
 
     }// End of Game class
 
@@ -520,18 +655,15 @@ namespace ConnectFour
     {
         static void Main(string[] args)
         {
+            // Declare variables and Game object which is the controller class.
             bool samePlayers = false;
             bool willPlayAgain = false;
             Game currentGame = new Game();
 
             do
-            {                
-                //Todo Display player name instead of player 1
-                //Start new game                 
-
-                currentGame.resetBoard();
-
-
+            {      
+                //Start new game
+                currentGame.ResetBoard();// Only necessary after the first time around, has no effect on the first game
                 if (!samePlayers)
                 {
                     // Input player 1
@@ -544,15 +676,13 @@ namespace ConnectFour
                     Console.WriteLine("Will Player 2 be Human (Y/N)? ");
                     string willPlayer2BeHuman = Console.ReadLine();
 
-
-
                     //this is so is value is not assigned it does not crash
                     string player2Name = "";
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
                         Console.WriteLine("Enter Player 2's name: ");
                         player2Name = Console.ReadLine();
-                        currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
+                        currentGame.AddHumanPlayer(player2Name,2);// Add human player2
                     }
                     else// Add Computer player default or with name 
                     {
@@ -562,7 +692,7 @@ namespace ConnectFour
                         {
                             Console.WriteLine("Enter Player 2's name: ");
                             player2Name = Console.ReadLine();
-                            currentGame.AddComputerPlayer(player2Name, 2);
+                            currentGame.AddComputerPlayer(player2Name);// Assumes a default of 2 for computer players 
                         }
                         else
                         {
@@ -571,10 +701,10 @@ namespace ConnectFour
                     }
                 }
 
-                //Display Players for testing purposes
+                //Display Players before game starts
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
-                    Console.WriteLine(p.ToString());
+                    Console.WriteLine(p);
                 }
 
                 //Display Board b4 game starts
@@ -592,7 +722,7 @@ namespace ConnectFour
                 {
                     for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                     {
-                        Console.WriteLine(currentGame.CurrentPlayersInGame[i].GetName() + ", please enter a column number for your move : ");
+                        Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move : ");
                         columnNumber = int.Parse(Console.ReadLine());
                         if (i == 0)
                         {
@@ -613,8 +743,7 @@ namespace ConnectFour
                             }
                         }
                         numberOfMoves++;
-                        
-                        
+                                                
                         if (numberOfMoves > 6)
                         {
                             if (currentGame.CheckForWinner(numberOfMoves))
@@ -624,9 +753,7 @@ namespace ConnectFour
                                 currentGame.DisplayBoard();
                                 break;
                             }
-                        }
-                        
-                        
+                        }     
 
                         // must be at the end of the loop for display Purposes 
                         Console.Clear();
@@ -635,10 +762,10 @@ namespace ConnectFour
                 }// Game is on inside this loop and ends win or draw
                     
                 
-                //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins
+                //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins // maybe make this a static method
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
-                    Console.WriteLine(p.ToString());// Todo maybe display winner first 
+                    Console.WriteLine(p);// Todo maybe display winner first // removed To string put back if issues
                 }
 
 
