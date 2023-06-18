@@ -57,12 +57,15 @@ namespace ConnectFour
             GamesLost++;
             TotalGames++;
         }
-        public void AddDraw()
+        public virtual void AddDraw()
         {
             GamesDrawn++;
             TotalGames++;
         }
-
+        public override string ToString()
+        {
+            return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
+        }
 
     }// End of Player Class
 
@@ -79,10 +82,18 @@ namespace ConnectFour
             GamesWon++;
             TotalGames++;
         }
+        public override void AddDraw()
+        {
+            GamesDrawn++;
+            TotalGames++;
+        }
+
+        /*  //will be removed if nothing breaks
         public override string ToString()
         {
             return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
         }
+        */
 
     }// End of Human Class
 
@@ -106,11 +117,12 @@ namespace ConnectFour
             GamesWon++;
             TotalGames++;
         }
-
+        /*  //will be removed if nothing breaks
         public override string ToString()
         {
             return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
         }
+        */
 
     }// End of Computer Class
     /// <summary>
@@ -620,7 +632,7 @@ namespace ConnectFour
                         Console.Clear();
                         currentGame.DisplayBoard();
                     }
-                }
+                }// Game is on inside this loop and ends win or draw
                     
                 
                 //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins
