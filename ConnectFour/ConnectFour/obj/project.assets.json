@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pmacd\\Documents\\OOP\\Final Project\\ConnectFour\\ConnectFour\\ConnectFour.csproj",
+      "projectUniqueName": "C:\\Users\\pmacd\\Documents\\Term 2 spring\\OOP\\Final Project\\ConnectFour\\ConnectFour\\ConnectFour.csproj",
       "projectName": "ConnectFour",
-      "projectPath": "C:\\Users\\pmacd\\Documents\\OOP\\Final Project\\ConnectFour\\ConnectFour\\ConnectFour.csproj",
+      "projectPath": "C:\\Users\\pmacd\\Documents\\Term 2 spring\\OOP\\Final Project\\ConnectFour\\ConnectFour\\ConnectFour.csproj",
       "packagesPath": "C:\\Users\\pmacd\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pmacd\\Documents\\OOP\\Final Project\\ConnectFour\\ConnectFour\\obj\\",
+      "outputPath": "C:\\Users\\pmacd\\Documents\\Term 2 spring\\OOP\\Final Project\\ConnectFour\\ConnectFour\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
