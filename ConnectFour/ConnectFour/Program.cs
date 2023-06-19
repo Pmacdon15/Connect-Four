@@ -231,8 +231,7 @@ namespace ConnectFour
         {
             return R.Next(1, 8);
             
-        }
-        
+        }        
     }// End of Computer Class
     /// <summary>
     /// This game class and controls most parts of the Game.
@@ -686,7 +685,6 @@ namespace ConnectFour
             }//End of for loop            
             return false;// We return false after checking for all winning possiblies
         }// End of CheckWinningDiagonal2
-
     }// End of Game class
 
     internal class Program
@@ -699,6 +697,7 @@ namespace ConnectFour
             Game currentGame = new Game();
 
             Console.WriteLine("Welcome to Connect Four!");
+            Console.WriteLine("Thank you for playing!\n\n\n\n");
             Console.WriteLine("Please Press Enter to Continue");
             Console.ReadLine();
             
@@ -769,7 +768,7 @@ namespace ConnectFour
                         }                                                                      
                     }   
                 }
-
+                Console.Clear();
                 //Display Players before game starts
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
