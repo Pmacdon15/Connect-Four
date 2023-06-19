@@ -285,7 +285,6 @@ namespace ConnectFour
             Console.WriteLine("----------------");
             Console.WriteLine(" 1 2 3 4 5 6 7");
         }
-        // Add PLayers
         /// <summary>
         /// This will be default for adding a human player
         /// </summary>
@@ -791,7 +790,7 @@ namespace ConnectFour
                             if (!currentGame.MakeAMove(columnNumber, 'X'))
                             {
                                 Console.WriteLine("Invalid Move");
-                                i--;
+                                i--;// This makes it so that when there is an invalid move the palyer goes again.
                                 continue;
                             }
                         }
@@ -800,7 +799,7 @@ namespace ConnectFour
                             if (!currentGame.MakeAMove(columnNumber, 'O'))
                             {
                                 Console.WriteLine("Invalid Move");
-                                i--;
+                                i--;// This makes it so that when there is an invalid move the palyer goes again.
                                 continue;
                             }
                         }
