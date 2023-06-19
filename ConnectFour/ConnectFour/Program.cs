@@ -842,10 +842,10 @@ namespace ConnectFour
                     }
                 }// Game is on inside this loop and ends win or draw.                    
                 
-                // We are able to sort different types of players because we use the eye comparable interface.
+                // We are able to sort different types of players because we use the icomparable interface.
                 currentGame.CurrentPlayersInGame.Sort();
 
-                //This loop reassigns the player's number meaning the winning player is player one.
+                // This loop reassigns the player's number meaning the winning player is player one.
                 for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                 {
                     int playerNumber = currentGame.CurrentPlayersInGame.IndexOf(currentGame.CurrentPlayersInGame[i]) + 1;
