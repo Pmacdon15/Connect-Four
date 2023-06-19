@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Linq;
 
 namespace ConnectFour
@@ -7,7 +8,7 @@ namespace ConnectFour
     /// <summary>
     /// Player is an abstract class that is used to create a HumanPlayer and a ComputerPlayer.
     /// </summary>
-    public abstract class Player 
+    public abstract class Player : IComparable<Player>
     {
         /// <summary>
         /// Player Name is protected so that it can only be accessed by the player class and its subclasses.
@@ -130,7 +131,18 @@ namespace ConnectFour
         {
             return $"Name: {Name} \nGames Won: {GamesWon} \nGames Lost: {GamesLost} \nGames Drawn: {GamesDrawn} \nTotal Games: {TotalGames}\n------------------------";
         }
-
+        /// <summary>
+        /// Uses I compare in order to sort different types of players.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Player other)
+        {
+            if (GamesWon < other.GamesWon) return 1;           
+            else if (GamesWon > other.GamesWon) return -1;            
+            else return 0;
+           
+        }
     }// End of Player Class
     /// <summary>
     /// Human player class is a child of the player class
@@ -296,7 +308,6 @@ namespace ConnectFour
         {
             CurrentPlayersInGame.Add(new ComputerPlayer(name, playerNumber = 2)); 
         }
-
         /// <summary>
         /// MakeAMove Allows the player to make a move on the game board.
         /// </summary>
@@ -322,7 +333,6 @@ namespace ConnectFour
             return false;
 
         }
-
         /// <summary>
         /// CheckForWinner checks for a winner in the game by using the methods CheckWinningRows, CheckWinningColumns, CheckWinningDiagonals top left to bottom right and top right to bottom left method.
         /// </summary>
@@ -661,7 +671,7 @@ namespace ConnectFour
                 k--;
             }//End of for loop            
             return false;// We return false after checking for all winning possiblies
-        }// End of CheckWinningDiagonal
+        }// End of CheckWinningDiagonal2
 
     }// End of Game class
 
@@ -810,6 +820,7 @@ namespace ConnectFour
                     
                 
                 //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins // maybe make this a static method
+                currentGame.CurrentPlayersInGame.Sort();
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
                     Console.WriteLine(p);// Todo maybe display winner first // removed To string put back if issues

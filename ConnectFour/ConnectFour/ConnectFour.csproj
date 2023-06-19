@@ -3,6 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <ApplicationIcon>connect-four.svg</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="connect-four.svg" />
+  </ItemGroup>
 
 </Project>
