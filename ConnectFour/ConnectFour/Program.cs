@@ -16,9 +16,9 @@ namespace ConnectFour
         /// </summary>
         public  string Name { get; private set; }
         /// <summary>
-        /// Player Number, 1 or 2, is protected so that it can only be accessed by the player class and its subclasses.
+        /// Player Number, Is public so it can be easily reassigned after the game is over.
         /// </summary>
-        protected int PlayerNumber { get; set; }
+        public int PlayerNumber { get; set; }
         /// <summary>
         /// Is a statistic That belongs to the player.
         /// </summary>
@@ -189,9 +189,11 @@ namespace ConnectFour
     /// </summary>
     public class ComputerPlayer : Player
     {
-        //Todo add a random name generator for the computer player
-        //Todo Add a random next move
         //Todo add a random next move that is a winning move
+        /// <summary>
+        /// Random number generator for computer player.
+        /// </summary>
+        public new Random R = new Random();   
         /// <summary>
         /// IsHuman is used to determine if the player is a human or a computer and will be set to false for computers.
         /// </summary>
@@ -220,6 +222,15 @@ namespace ConnectFour
         {
             GamesWon++;
             TotalGames++;
+        }
+        /// <summary>
+        /// this is a random move for a computer player that is easy mode or a basic computer. 
+        /// </summary>
+        /// <returns></returns>
+        public int RandomMove()
+        {
+            return R.Next(1, 8);
+            
         }
         
     }// End of Computer Class
@@ -755,10 +766,7 @@ namespace ConnectFour
                         else //if (willPlayer2HaveAName.ToUpper() == "N")
                         {
                             currentGame.AddComputerPlayer(2);
-                        }
-                       
-                       
-                        
+                        }                                                                      
                     }   
                 }
 
@@ -773,20 +781,33 @@ namespace ConnectFour
                 Console.ReadLine();
                 Console.Clear();
                 currentGame.DisplayBoard();
-
-                //bool moveComplete = false;  // on its way out
+                  
                 int columnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
-
+                
                 while (gameOn)
                 {
                     for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                     {
-                        Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move : ");
-                        columnNumber = int.Parse(Console.ReadLine());
+                        if (currentGame.CurrentPlayersInGame[i] is HumanPlayer)
+                        {
+
+                            Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move : ");
+                            columnNumber = int.Parse(Console.ReadLine());
+                        }
+                        else
+                        {
+                            // Down casting to access the RandomMove method.
+                            ComputerPlayer computerPlayer = currentGame.CurrentPlayersInGame[i] as ComputerPlayer;
+                            columnNumber = computerPlayer.RandomMove();                           
+                            
+                            Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + " has chosen column " + columnNumber);                                                       
+                            System.Threading.Thread.Sleep(2000);
+                        }
                         if (i == 0)
                         {
+
                             if (!currentGame.MakeAMove(columnNumber, 'X'))
                             {
                                 Console.WriteLine("Invalid Move");
@@ -804,17 +825,19 @@ namespace ConnectFour
                             }
                         }
                         numberOfMoves++;
-                                                
+                                       
+                        
                         if (numberOfMoves > 6)
                         {
                             if (currentGame.CheckForWinner(numberOfMoves))
                             {
                                 gameOn = false;
-                                //Console.Clear();
+                                //Console.Clear();   this is on its way out if nothing breaks
                                 currentGame.DisplayBoard();
                                 break;
                             }
-                        }     
+                        } 
+                        
 
                         // must be at the end of the loop for display Purposes 
                         Console.Clear();
@@ -823,14 +846,20 @@ namespace ConnectFour
                 }// Game is on inside this loop and ends win or draw
                     
                 
-                //Display Players for testing purposes  // this will be changed to use interface and sort the winner with the most wins // maybe make this a static method
+                // We are able to sort different types of players because we use the eye comparable interface.
                 currentGame.CurrentPlayersInGame.Sort();
-                foreach (Player p in currentGame.CurrentPlayersInGame)
+
+                //This loop reassigns the player's number meaning the winning player is player one.
+                for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                 {
-                    Console.WriteLine(p);// Todo maybe display winner first // removed To string put back if issues
+                    int playerNumber = currentGame.CurrentPlayersInGame.IndexOf(currentGame.CurrentPlayersInGame[i]) + 1;
+                    currentGame.CurrentPlayersInGame[i].PlayerNumber = playerNumber;
                 }
 
-
+                foreach (Player p in currentGame.CurrentPlayersInGame)
+                {
+                    Console.WriteLine(p);
+                }
 
 
                 // Play again input 
