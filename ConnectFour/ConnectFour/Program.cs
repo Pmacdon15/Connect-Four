@@ -203,7 +203,7 @@ namespace ConnectFour
         {
 
         }
-         /// <summary>
+        /// <summary>
         /// For adding a computer player with a specific name and number. It also uses the base class player as a default constructor.
         /// </summary>
         /// <param name="name"></param>
@@ -774,21 +774,18 @@ namespace ConnectFour
                 }
                 Console.Clear();
                 // Display Players before game starts
-                foreach (Player p in currentGame.CurrentPlayersInGame)
-                {
-                    Console.WriteLine(p);
-                }
-
+                foreach (Player p in currentGame.CurrentPlayersInGame) Console.WriteLine(p);
+                
                 // Display Board b4 game starts
                 Console.WriteLine("Hit enter to Continue");
                 Console.ReadLine();
                 Console.Clear();
                 currentGame.DisplayBoard();
-                  
+                // Initialize variables for the game
                 int columnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
-                // This loop is for the game
+                // This loop is the Game 
                 while (gameOn)
                 {
                     for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
@@ -804,8 +801,10 @@ namespace ConnectFour
                             ComputerPlayer computerPlayer = currentGame.CurrentPlayersInGame[i] as ComputerPlayer;
                             columnNumber = computerPlayer.RandomMove();     
                             Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + " has chosen column " + columnNumber);                                                       
+                            // 2 Second delay here so the user can see the computer's move.
                             System.Threading.Thread.Sleep(2000);
                         }
+                        // 0 is player 1 else player 2.
                         if (i == 0)
                         {
                             if (!currentGame.MakeAMove(columnNumber, 'X'))
@@ -825,7 +824,7 @@ namespace ConnectFour
                             }
                         }
                         numberOfMoves++;                                       
-                        
+                        // Check for winner if possible after 7 moves
                         if (numberOfMoves > 6)
                         {
                             if (currentGame.CheckForWinner(numberOfMoves))
@@ -853,12 +852,8 @@ namespace ConnectFour
                     currentGame.CurrentPlayersInGame[i].PlayerNumber = playerNumber;
                 }
                 // Display the players in order of most wins
-                foreach (Player p in currentGame.CurrentPlayersInGame)
-                {
-                    Console.WriteLine(p);
-                }
-
-
+                foreach (Player p in currentGame.CurrentPlayersInGame) Console.WriteLine(p);
+               
                 // Play again input 
                 Console.WriteLine("Do you want to play again (Y/N)? ");
                 string playAgian = Console.ReadLine();
@@ -884,6 +879,5 @@ namespace ConnectFour
             } while (willPlayAgain);// End of do while loop
 
         }// End of Main
-    }     
-    
-}
+    }// End of Program class   
+}// End of namespace
