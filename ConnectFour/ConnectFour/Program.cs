@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace ConnectFour
@@ -91,14 +92,16 @@ namespace ConnectFour
 
             foreach (string part in nameParts)
             {
-                capitalized += char.ToUpper(part[0]) + part.Substring(1) + " ";
+                capitalized += char.ToUpper(part[0]) + part.Substring(1);
+                if (part != nameParts.Last())
+                    capitalized += " ";
             }
-            return capitalized;        
+            return capitalized;
         }
         /// <summary>
-    /// Used to get the player's name as it a a protected.
-    /// </summary>
-    /// <returns></returns>
+        /// Used to get the player's name as it a a protected.
+        /// </summary>
+        /// <returns></returns>
         public int GetNumber()
         {
             return PlayerNumber ;
@@ -143,7 +146,8 @@ namespace ConnectFour
             else return 0;
            
         }
-    }// End of Player Class
+    }   // End of Player Class
+
     /// <summary>
     /// Human player class is a child of the player class
     /// </summary>
