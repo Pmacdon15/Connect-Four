@@ -721,6 +721,7 @@ namespace ConnectFour
                     {
                         Console.WriteLine("Enter Player 2's name: ");
                         player2Name = Console.ReadLine();
+                        Console.Clear();
                         currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
                     }
                     else if (willPlayer2BeHuman.ToUpper() == "N")      // Add Computer player default or with name 
