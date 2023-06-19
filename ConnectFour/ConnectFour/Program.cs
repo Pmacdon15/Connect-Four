@@ -99,7 +99,7 @@ namespace ConnectFour
             return capitalized;
         }
         /// <summary>
-        /// Used to get the player's name as it a a protected.
+        /// Originally used to get the player's number while it was a protected property. It still functions as intended and instead of changing the code I will leave it in place and use it.
         /// </summary>
         /// <returns></returns>
         public int GetNumber()
@@ -147,7 +147,6 @@ namespace ConnectFour
            
         }
     }   // End of Player Class
-
     /// <summary>
     /// Human player class is a child of the player class
     /// </summary>
@@ -182,14 +181,12 @@ namespace ConnectFour
             GamesDrawn++;
             TotalGames++;
         }
-
     }// End of Human Class
     /// <summary>
     /// The computer player class its a child of the player class
     /// </summary>
     public class ComputerPlayer : Player
-    {
-        //Todo add a random next move that is a winning move
+    {       
         /// <summary>
         /// Random number generator for computer player.
         /// </summary>
@@ -232,13 +229,20 @@ namespace ConnectFour
             return R.Next(1, 8);
             
         }        
+        /// <summary>
+        /// This is a work in progress for a computer player that is hard mode or a more advanced computer.
+        /// </summary>
+        /// <returns></returns>
+        public int WinningMove()
+        {
+            return 0;
+        }
     }// End of Computer Class
     /// <summary>
     /// This game class and controls most parts of the Game.
     /// </summary>
     public class Game
-    {
-        //public bool Status { get; set; }  // This is on its way out.!!!!!!
+    {        
         /// <summary>
         /// The GameBoard is a 2D array of char type that is used to display the game board and keep track of the game state.
         /// </summary>
@@ -729,6 +733,7 @@ namespace ConnectFour
 
                     } while (willPlayer2BeHuman.ToUpper() != "Y" && willPlayer2BeHuman.ToUpper() != "N");
 
+                    // Then we deal with the Acceptable result.
                     string player2Name = "";
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
@@ -746,7 +751,6 @@ namespace ConnectFour
                             Console.WriteLine("Do you want to enter a name for Computer player 2 (Y/N)? ");
                             willPlayer2HaveAName = Console.ReadLine();
 
-
                             if (willPlayer2HaveAName.ToUpper() != "Y" && willPlayer2HaveAName.ToUpper() != "N")
                             {
                                 Console.Clear();
@@ -754,8 +758,8 @@ namespace ConnectFour
                             }
 
                         } while (willPlayer2HaveAName.ToUpper() != "Y" && willPlayer2HaveAName.ToUpper() != "N");
-                            
 
+                        // Then we deal with the Acceptable result.
                         if (willPlayer2HaveAName.ToUpper() == "Y")
                         {
                             Console.WriteLine("Enter Player 2's name: ");
@@ -764,18 +768,18 @@ namespace ConnectFour
                         }
                         else //if (willPlayer2HaveAName.ToUpper() == "N")
                         {
-                            currentGame.AddComputerPlayer(2);
+                            currentGame.AddComputerPlayer(2); // Uses default name for computer players
                         }                                                                      
                     }   
                 }
                 Console.Clear();
-                //Display Players before game starts
+                // Display Players before game starts
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
                     Console.WriteLine(p);
                 }
 
-                //Display Board b4 game starts
+                // Display Board b4 game starts
                 Console.WriteLine("Hit enter to Continue");
                 Console.ReadLine();
                 Console.Clear();
@@ -784,29 +788,26 @@ namespace ConnectFour
                 int columnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
-                
+                // This loop is for the game
                 while (gameOn)
                 {
                     for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
                     {
                         if (currentGame.CurrentPlayersInGame[i] is HumanPlayer)
                         {
-
                             Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move : ");
                             columnNumber = int.Parse(Console.ReadLine());
                         }
                         else
-                        {
+                        {   // Here A computer is making a move.
                             // Down casting to access the RandomMove method.
                             ComputerPlayer computerPlayer = currentGame.CurrentPlayersInGame[i] as ComputerPlayer;
-                            columnNumber = computerPlayer.RandomMove();                           
-                            
+                            columnNumber = computerPlayer.RandomMove();     
                             Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + " has chosen column " + columnNumber);                                                       
                             System.Threading.Thread.Sleep(2000);
                         }
                         if (i == 0)
                         {
-
                             if (!currentGame.MakeAMove(columnNumber, 'X'))
                             {
                                 Console.WriteLine("Invalid Move");
@@ -823,8 +824,7 @@ namespace ConnectFour
                                 continue;
                             }
                         }
-                        numberOfMoves++;
-                                       
+                        numberOfMoves++;                                       
                         
                         if (numberOfMoves > 6)
                         {
@@ -835,15 +835,13 @@ namespace ConnectFour
                                 currentGame.DisplayBoard();
                                 break;
                             }
-                        } 
-                        
+                        }                         
 
                         // must be at the end of the loop for display Purposes 
                         Console.Clear();
                         currentGame.DisplayBoard();
                     }
-                }// Game is on inside this loop and ends win or draw
-                    
+                }// Game is on inside this loop and ends win or draw.                    
                 
                 // We are able to sort different types of players because we use the eye comparable interface.
                 currentGame.CurrentPlayersInGame.Sort();
@@ -854,7 +852,7 @@ namespace ConnectFour
                     int playerNumber = currentGame.CurrentPlayersInGame.IndexOf(currentGame.CurrentPlayersInGame[i]) + 1;
                     currentGame.CurrentPlayersInGame[i].PlayerNumber = playerNumber;
                 }
-
+                // Display the players in order of most wins
                 foreach (Player p in currentGame.CurrentPlayersInGame)
                 {
                     Console.WriteLine(p);
