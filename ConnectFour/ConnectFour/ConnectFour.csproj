@@ -3,11 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ApplicationIcon>connect-four.svg</ApplicationIcon>
+    <ApplicationIcon>Google_Chrome_icon-icons.com_75711.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="connect-four.svg" />
+    <Content Include="Google_Chrome_icon-icons.com_75711.ico" />
   </ItemGroup>
 
 </Project>
