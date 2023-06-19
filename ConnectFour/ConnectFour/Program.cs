@@ -850,9 +850,7 @@ namespace ConnectFour
 
                 else willPlayAgain = false;
                 Console.Clear(); // clear questions after game is over
-
-
-                
+                                               
 
             } while (willPlayAgain);// End of do while loop
 
