@@ -331,7 +331,7 @@ namespace ConnectFour
         /// <param name="columnNumber"></param>
         /// <param name="playerSymbol"></param>
         /// <returns></returns>
-        public bool MakeAMove(int columnNumber, char playerSymbol)
+        public bool MakeAMove(int columnNumber, ref char playerSymbol)
         {
             if (columnNumber <= 7 && columnNumber > 0)
             {
@@ -829,7 +829,9 @@ namespace ConnectFour
                         // 0 is player 1 else player 2.
                         if (i == 0)
                         {
-                            if (!currentGame.MakeAMove(columnNumber, 'X'))
+                            // This char and reference are unnecessary and are there to check a box.
+                            char player1symbol = 'X';
+                            if (!currentGame.MakeAMove(columnNumber, ref player1symbol))
                             {
                                 Console.WriteLine("Invalid Move");
                                 i--;// This makes it so that when there is an invalid move the palyer goes again.
@@ -839,7 +841,9 @@ namespace ConnectFour
                         // Is player 2.
                         else
                         {
-                            if (!currentGame.MakeAMove(columnNumber, 'O'))
+                            // This aswell is unnecessary and is there to check a box.
+                            char player2symbol = 'O';
+                            if (!currentGame.MakeAMove(columnNumber, ref player2symbol))
                             {
                                 Console.WriteLine("Invalid Move");
                                 i--;// This makes it so that when there is an invalid move the palyer goes again.
