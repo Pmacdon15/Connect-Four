@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.ExceptionServices;
 using System.Xml.Linq;
 
 namespace ConnectFour
@@ -106,6 +107,7 @@ namespace ConnectFour
             Game currentGame = new Game();
 
             Console.WriteLine("Welcome to Connect Four!");
+            Console.WriteLine("In This Game after the first round player one will be the player with the most wins."); // This feature is so that I could include an object oriented premise.
             Console.WriteLine("Thank you for playing!\n\n\n\n");
             Console.WriteLine("Please Press Enter to Continue");
             Console.ReadLine();
@@ -140,6 +142,7 @@ namespace ConnectFour
 
                     // Then we deal with the Acceptable result.
                     string player2Name = "";
+                   
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
                         Console.WriteLine("Enter Player 2's name: ");
@@ -191,12 +194,18 @@ namespace ConnectFour
                 int columnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
+                // For a random player start
+                bool isFirstTime = true;
+                Random ran = new Random();
+                int ranPlayerStart = ran.Next(0, 2); //0 for player 1 and 1 for player 2
                 
                 // This loop is the Game 
                 while (gameOn)
                 {
-                    for (int i = 0; i < currentGame.CurrentPlayersInGame.Count; i++)
+                    if (!isFirstTime) ranPlayerStart = 0;  
+                    for (int i = ranPlayerStart; i < currentGame.CurrentPlayersInGame.Count; i++)
                     {
+                        isFirstTime = false;
                         if (currentGame.CurrentPlayersInGame[i] is HumanPlayer)
                         {
                             Console.Write(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move: ");
@@ -228,7 +237,7 @@ namespace ConnectFour
                             System.Threading.Thread.Sleep(2000);
                         }
                         // 0 is player 1 else player 2.
-                        if (i == 0)
+                        if (i == 0)  
                         {
                             // This char and reference are unnecessary and are there to check a box.// might re move at a later date.
                             char player1symbol = 'X';
@@ -304,10 +313,6 @@ namespace ConnectFour
                 // Clear questions after game is over.
                 Console.Clear();  
                 
-
-
-
-
             } while (willPlayAgain);// End of do while loop.
 
         }// End of Main.
