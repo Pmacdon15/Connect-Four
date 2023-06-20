@@ -772,8 +772,8 @@ namespace ConnectFour
                         }                                                                      
                     }   
                 }
-                Console.Clear();
-                // Display Players before game starts
+                // Display Players before game starts.
+                Console.Clear();                
                 foreach (Player p in currentGame.CurrentPlayersInGame) Console.WriteLine(p);
                 
                 // Display Board b4 game starts
@@ -781,11 +781,12 @@ namespace ConnectFour
                 Console.ReadLine();
                 Console.Clear();
                 currentGame.DisplayBoard();
+
                 // Initialize variables for the game
                 int columnNumber;
-                //int potentialColumnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
+                
                 // This loop is the Game 
                 while (gameOn)
                 {
@@ -807,6 +808,7 @@ namespace ConnectFour
                                         throw new Exception("Column number is out of range. Please enter a valid Column.");
                                     }
                                     Console.WriteLine("The column number you entered is: " + columnNumber);
+                                    System.Threading.Thread.Sleep(1000);
                                     break;
                                 }
                                 catch (Exception ex)
@@ -892,13 +894,13 @@ namespace ConnectFour
                         samePlayers = false;
                     }
                 }
-
                 else willPlayAgain = false;
-                Console.Clear(); // clear questions after game is over
-                                               
+                
+                // Clear questions after game is over.
+                Console.Clear();                                               
 
-            } while (willPlayAgain);// End of do while loop
+            } while (willPlayAgain);// End of do while loop.
 
-        }// End of Main
-    }// End of Program class   
-}// End of namespace
+        }// End of Main.
+    }// End of Program class.
+}// End of namespace.
