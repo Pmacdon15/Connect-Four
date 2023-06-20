@@ -244,9 +244,9 @@ namespace ConnectFour
     public class Game
     {        
         /// <summary>
-        /// The GameBoard is a 2D array of char type that is used to display the game board and keep track of the game state.
+        /// The GameBoard is a 2D array of char type that is used to display the game board and keep track of the game state. it is public so that it can be accessed by the game controller class.
         /// </summary>
-        private char[,] GameBoard { get; set; } = new char[6, 7];
+        public char[,] GameBoard { get; set; } = new char[6, 7];
         /// <summary>
         /// A game object will keep a list of players in the game. 
         /// </summary>
@@ -783,6 +783,7 @@ namespace ConnectFour
                 currentGame.DisplayBoard();
                 // Initialize variables for the game
                 int columnNumber;
+                //int potentialColumnNumber;
                 int numberOfMoves = 0;
                 bool gameOn = true;
                 // This loop is the Game 
@@ -792,9 +793,28 @@ namespace ConnectFour
                     {
                         if (currentGame.CurrentPlayersInGame[i] is HumanPlayer)
                         {
+                            /* // This is on its way out once i confirm i hand the excption correctly
                             Console.WriteLine(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move : ");
                             columnNumber = int.Parse(Console.ReadLine());
-                        }
+                            */     
+                            Console.Write(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move: ");
+                            while (true)
+                            {
+                                try
+                                {   columnNumber = int.Parse(Console.ReadLine());
+                                    if (columnNumber < 0 || columnNumber >= 8)
+                                    {
+                                        throw new Exception("Column number is out of range. Please enter a valid Column.");
+                                    }
+                                    Console.WriteLine("The column number you entered is: " + columnNumber);
+                                    break;
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.Write("An error occurred: " + ex.Message+ "\nPlease Enter a valid number (1-7): ");
+                                }
+                            }                        
+                        }   
                         else
                         {   // Here A computer is making a move.
                             // Down casting to access the RandomMove method.
@@ -814,6 +834,7 @@ namespace ConnectFour
                                 continue;
                             }
                         }
+                        // Is player 2.
                         else
                         {
                             if (!currentGame.MakeAMove(columnNumber, 'O'))
