@@ -107,7 +107,7 @@ namespace ConnectFour
             Game currentGame = new Game();
 
             Console.WriteLine("Welcome to Connect Four!");
-            Console.WriteLine("In This Game after the first round player one will be the player with the most wins."); // This feature is so that I could include an object oriented premise.
+            Console.WriteLine("In This Game after the first round player one will be the player with the most wins.\nThe player to go first is randomly selected "); // This feature is so that I could include an object oriented premise.
             Console.WriteLine("Thank you for playing!\n\n\n\n");
             Console.WriteLine("Please Press Enter to Continue");
             Console.ReadLine();
