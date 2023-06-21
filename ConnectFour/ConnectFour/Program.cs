@@ -290,12 +290,16 @@ namespace ConnectFour
                 }
                 // Display the players in order of most wins
                 foreach (Player p in currentGame.CurrentPlayersInGame) Console.WriteLine(p);
-               
-                // Play again input 
-                Console.WriteLine("Do you want to play again (Y/N)? ");
-                string playAgian = Console.ReadLine();
 
-                if (playAgian.ToUpper() == "Y")
+                // Play again input 
+                string playAgain = "";
+                do
+                {
+                    Console.WriteLine("Do you want to play again (Y/N)? ");
+                    playAgain = Console.ReadLine();
+                } while (playAgain.ToUpper() != "Y" && playAgain.ToUpper() != "N");
+
+                if (playAgain.ToUpper() == "Y")
                 {
                     willPlayAgain = true;
 
