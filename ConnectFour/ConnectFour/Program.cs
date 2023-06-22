@@ -124,7 +124,7 @@ namespace ConnectFour
                     // This loop deals with the case where the user enters no name at all.
                     while (player1Name=="")
                     {
-                        Console.WriteLine("Enter Player 1's name: ");
+                        Console.WriteLine("Enter Player 1's name(at least one Character): ");
                         player1Name = Console.ReadLine();
                     }
                     nameNotToCopy = player1Name;
@@ -155,7 +155,7 @@ namespace ConnectFour
                         // This loop deals with the case where the user enters the same name as player 1 or no name at all.
                         while (player2Name == nameNotToCopy || player2Name == "")
                         {
-                            Console.WriteLine("Enter Player 2's name: ");
+                            Console.WriteLine("Enter Player 2's name(at least one character and not the same as Player one): ");
                             player2Name = Console.ReadLine();
                         }
                         Console.Clear();
@@ -184,7 +184,7 @@ namespace ConnectFour
                             // This loop deals with the case where the user enters the same name as player 1 or no name at all.
                             while (player2Name == nameNotToCopy || player2Name == "")
                             {
-                                Console.WriteLine("Enter Player 2's name: ");
+                                Console.WriteLine("Enter Player 2's name(at least one character and not the same as Player one): ");
                                 player2Name = Console.ReadLine();
                             }
                             currentGame.AddComputerPlayer(player2Name);// Assumes a default of 2 for computer players 
