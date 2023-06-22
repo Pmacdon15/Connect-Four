@@ -119,8 +119,15 @@ namespace ConnectFour
                 if (!samePlayers)
                 {
                     // Input player 1
-                    Console.WriteLine("Enter Player 1's name: ");
-                    string player1Name = Console.ReadLine();
+                    string player1Name = "";
+                    string nameNotToCopy = "";
+                    // This loop deals with the case where the user enters no name at all.
+                    while (player1Name=="")
+                    {
+                        Console.WriteLine("Enter Player 1's name: ");
+                        player1Name = Console.ReadLine();
+                    }
+                    nameNotToCopy = player1Name;
                     // Add Player 1
                     currentGame.AddHumanPlayer(player1Name, 1);
                     string willPlayer2BeHuman = "";
@@ -145,8 +152,12 @@ namespace ConnectFour
                    
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
-                        Console.WriteLine("Enter Player 2's name: ");
-                        player2Name = Console.ReadLine();
+                        // This loop deals with the case where the user enters the same name as player 1 or no name at all.
+                        while (player2Name == nameNotToCopy || player2Name == "")
+                        {
+                            Console.WriteLine("Enter Player 2's name: ");
+                            player2Name = Console.ReadLine();
+                        }
                         Console.Clear();
                         currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
                     }
@@ -170,8 +181,12 @@ namespace ConnectFour
                         // Then we deal with the Acceptable result.
                         if (willPlayer2HaveAName.ToUpper() == "Y")
                         {
-                            Console.WriteLine("Enter Player 2's name: ");
-                            player2Name = Console.ReadLine();
+                            // This loop deals with the case where the user enters the same name as player 1 or no name at all.
+                            while (player2Name == nameNotToCopy || player2Name == "")
+                            {
+                                Console.WriteLine("Enter Player 2's name: ");
+                                player2Name = Console.ReadLine();
+                            }
                             currentGame.AddComputerPlayer(player2Name);// Assumes a default of 2 for computer players 
                         }
                         else //if (willPlayer2HaveAName.ToUpper() == "N")
