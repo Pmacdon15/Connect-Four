@@ -225,7 +225,12 @@ namespace ConnectFour
                         isFirstTime = false;
                         if (currentGame.CurrentPlayersInGame[i] is HumanPlayer)
                         {
-                            Console.Write(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your move: ");
+                            // Iplayer 1
+                            if (currentGame.CurrentPlayersInGame[i].PlayerNumber== 1) Console.Write(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your X: ");
+                            // Else player 2
+                            else Console.Write(currentGame.CurrentPlayersInGame[i].Name + ", please enter a column number for your O: ");
+
+                            // This loop handles the case where the user enters a non-integer.
                             while (true)
                             {
                                 try

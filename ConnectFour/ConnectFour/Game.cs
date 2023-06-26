@@ -111,8 +111,7 @@ namespace ConnectFour
                 Console.WriteLine("Column is full");
                 return false;
             }
-            Console.WriteLine("Please enter a valid Column Number!!!");
-            return false;
+            return false;// This is here becuase you have to have something return outside the if, The exception is already handled in the controller class.
 
         }
         /// <summary>
