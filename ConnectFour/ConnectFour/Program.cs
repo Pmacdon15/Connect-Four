@@ -50,7 +50,7 @@ namespace ConnectFour
         /// </summary>
         public new Random R = new Random();   
         /// <summary>
-        /// IsHuman is used to determine if the player is a human or a computer and will be set to false for computers.
+        /// IsHuman is used to determine if the player is a human or a computer and will be set to false for computers. I belive this is unnessary as I can check the player type in the currentPlayers list. will probaly remove(which will take time and effect changes not just here.)
         /// </summary>
         public bool IsHuman { get; set; }
         /// <summary>
@@ -107,7 +107,7 @@ namespace ConnectFour
             Game currentGame = new Game();
 
             Console.WriteLine("Welcome to Connect Four!");
-            Console.WriteLine("In This Game after the first round player one will be the player with the most wins.\nThe player to go first is randomly selected "); // This feature is so that I could include an object oriented premise.
+            Console.WriteLine("In This Game after the first round player one will be the player with the most wins.\nThe player to go first is randomly selected."); // This feature is so that I could include an object oriented premise.
             Console.WriteLine("Thank you for playing!\n\n\n\n");
             Console.WriteLine("Please Press Enter to Continue");
             Console.ReadLine();
@@ -120,14 +120,14 @@ namespace ConnectFour
                 {
                     // Input player 1
                     string player1Name = "";
-                    string nameNotToCopy = "";
+                   
                     // This loop deals with the case where the user enters no name at all.
                     while (player1Name=="")
                     {
                         Console.WriteLine("Enter Player 1's name(at least one Character): ");
                         player1Name = Console.ReadLine();
                     }
-                    nameNotToCopy = player1Name;
+                    player1Name = Player.CapitalizeName(player1Name);// capitalize the name for comparison later on.
                     // Add Player 1
                     currentGame.AddHumanPlayer(player1Name, 1);
                     string willPlayer2BeHuman = "";
@@ -153,10 +153,11 @@ namespace ConnectFour
                     if (willPlayer2BeHuman.ToUpper() == "Y")
                     {
                         // This loop deals with the case where the user enters the same name as player 1 or no name at all.
-                        while (player2Name == nameNotToCopy || player2Name == "")
+                        while (player2Name == player1Name || player2Name == "")
                         {
                             Console.WriteLine("Enter Player 2's name(at least one character and not the same as Player one): ");
                             player2Name = Console.ReadLine();
+                            player2Name = Player.CapitalizeName(player2Name);
                         }
                         Console.Clear();
                         currentGame.AddHumanPlayer(player2Name, 2);// Add human player2
@@ -182,10 +183,11 @@ namespace ConnectFour
                         if (willPlayer2HaveAName.ToUpper() == "Y")
                         {
                             // This loop deals with the case where the user enters the same name as player 1 or no name at all.
-                            while (player2Name == nameNotToCopy || player2Name == "")
+                            while (player2Name == player1Name || player2Name == "")
                             {
                                 Console.WriteLine("Enter Player 2's name(at least one character and not the same as Player one): ");
                                 player2Name = Console.ReadLine();
+                                player2Name = Player.CapitalizeName(player2Name);
                             }
                             currentGame.AddComputerPlayer(player2Name);// Assumes a default of 2 for computer players 
                         }
